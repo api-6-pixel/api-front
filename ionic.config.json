@@ -1,0 +1,7 @@
+{
+  "name": "api-front",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

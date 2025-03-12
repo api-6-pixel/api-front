@@ -1,0 +1,245 @@
+:root {
+    --ion-background-color: #ffffff;
+    --ion-background-color-hsla: hsla(225, 13%, 18%, 0.35);
+    --ion-primetable-sortable-color: #ffffff;
+    --ion-scrollbar-color: #f5821f;
+    --ion-webkit-scrollbar-track-background: #adb5bd5d;
+    --ion-webkit-scrollbar-thumb-background-color: #f5821f;
+    /** primary **/
+    --ion-color-primary: #f5821f;
+    --ion-color-primary-rgb: 213, 25, 0;
+    --ion-color-primary-contrast: #ffffff;
+    --ion-color-primary-contrast-rgb: 255, 255, 255;
+    --ion-color-primary-shade: #862316;
+    --ion-color-primary-tint: #e83820;
+    --ion-color-primary-focus: #febfbf;
+    --ion-color-primary-linear-gradient: linear-gradient(107.2deg, rgba(150, 15, 15, 1) 10.6%, rgba(247, 0, 0, 1) 91.1%);
+    --ion-color-primary-linear-gradient-rgba: rgba(246, 151, 69, 0.7404003838);
+    --ion-color-primary-box-shadow: rgba(224, 25, 0, 0.50) 0px 3px 1px -2px, rgba(224, 25, 0, 0.25) 0px 0px 3px 0px, rgba(224, 25, 0, 0.25) 0px 1px 5px 3px;
+  
+    /** secondary **/
+    --ion-color-secondary: #c5c5c546;
+    --ion-color-secondary-rgb: 61, 194, 255;
+    --ion-color-secondary-contrast: #ffffff;
+    --ion-color-secondary-contrast-rgb: 255, 255, 255;
+    --ion-color-secondary-shade: #36abe0;
+    --ion-color-secondary-tint: #50c8ff;
+  
+    /** tertiary **/
+    --ion-color-tertiary: #000000;
+    --ion-color-tertiary-rgb: 82, 96, 255;
+    --ion-color-tertiary-contrast: #ffffff;
+    --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+    --ion-color-tertiary-shade: #4854e0;
+    --ion-color-tertiary-tint: #6370ff;
+  
+    /** success **/
+    --ion-color-success: #2dd36f;
+    --ion-color-success-rgb: 45, 211, 111;
+    --ion-color-success-contrast: #ffffff;
+    --ion-color-success-contrast-rgb: 255, 255, 255;
+    --ion-color-success-shade: #28ba62;
+    --ion-color-success-tint: #42d77d;
+  
+    /** warning **/
+    --ion-color-warning: #ffc409;
+    --ion-color-warning-rgb: 255, 196, 9;
+    --ion-color-warning-contrast: #000000;
+    --ion-color-warning-contrast-rgb: 0, 0, 0;
+    --ion-color-warning-shade: #e0ac08;
+    --ion-color-warning-tint: #ffca22;
+  
+    /** danger **/
+    --ion-color-danger: #ff0000;
+    --ion-color-danger-rgb: 235, 68, 90;
+    --ion-color-danger-contrast: #ffffff;
+    --ion-color-danger-contrast-rgb: 255, 255, 255;
+    --ion-color-danger-shade: #cf3c4f;
+    --ion-color-danger-tint: #ed576b;
+    --ion-color-danger-linear-gradient: #f5821f;
+    --ion-color-danger-linear-gradient-rgba: rgba(213, 25, 0, 0.7404003838);
+  
+    /** dark **/
+    --ion-color-dark: #222428;
+    --ion-color-dark-rgb: 34, 36, 40;
+    --ion-color-dark-contrast: #ffffff;
+    --ion-color-dark-contrast-rgb: 255, 255, 255;
+    --ion-color-dark-shade: #1e2023;
+    --ion-color-dark-tint: #383a3e;
+  
+    /** medium **/
+    --ion-color-medium: #92949c;
+    --ion-color-medium-rgb: 146, 148, 156;
+    --ion-color-medium-contrast: #ffffff;
+    --ion-color-medium-contrast-rgb: 255, 255, 255;
+    --ion-color-medium-shade: #808289;
+    --ion-color-medium-tint: #9d9fa6;
+  
+    /** light **/
+    --ion-color-light: #f4f5f8;
+    --ion-color-light-rgb: 244, 245, 248;
+    --ion-color-light-contrast: #000000;
+    --ion-color-light-contrast-rgb: 0, 0, 0;
+    --ion-color-light-shade: #d7d8da;
+    --ion-color-light-tint: #f5f6f9;
+  
+    /** white **/
+    --icon-color-white: #ffffff;
+    --ion-font-family:'Poppins'
+  }
+  
+  
+  #menu {
+    --side-width: 57px;
+    --side-min-width: 57px;
+    --side-max-width: 250px;
+  
+    &.open>ion-menu {
+      width: 16rem;
+      transition: width 0.5s ease-in-out;
+  
+      ion-header {
+        ion-label {
+          left: 50px;
+          transition: left 0.5s ease-in-out;
+        }
+      }
+  
+      ion-content {
+        ion-list {
+          ion-item {
+            --border-width: 0px 0px 1px 0px;
+  
+            ion-label {
+              left: 50px;
+              transition: left 0.5s ease-in-out;
+            }
+  
+            &::part(detail-icon) {
+              left: 200px;
+              transition: left 0.5s ease-in-out;
+            }
+          }
+        }
+      }
+  
+      ion-footer {
+        ion-item {
+          ion-label {
+            left: 50px;
+            transition: left 0.5s ease-in-out;
+          }
+  
+          &::part(detail-icon) {
+            left: 200px;
+            transition: left 0.5s ease-in-out;
+          }
+        }
+      }
+    }
+  
+    &:not(.open)>ion-menu {
+      width: var(--side-width);
+      transition: width 0.5s ease-in-out;
+  
+      ion-header {
+        ion-label {
+          left: -200px;
+          transition: left 0.5s ease-in-out;
+        }
+      }
+  
+      ion-content {
+        ion-list {
+          ion-item {
+            --border-width: 0px;
+  
+            ion-label {
+              left: -200px;
+              transition: left 0.5s ease-in-out;
+            }
+  
+            &::part(detail-icon) {
+              display: none;
+              left: 0px;
+              transition: left 0.5s ease-in-out;
+            }
+          }
+        }
+      }
+  
+      ion-footer {
+        ion-item {
+          --border-width: 0px;
+  
+          ion-label {
+            left: -200px;
+            transition: left 0.5s ease-in-out;
+          }
+  
+          &::part(detail-icon) {
+            display: none;
+            left: 0px;
+            transition: left 0.5s ease-in-out;
+          }
+        }
+      }
+    }
+  
+    ion-menu {
+      ion-header {
+        height: 56px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-right: 1px solid var(--ion-color-primary);
+        cursor: pointer;
+  
+        ion-item {
+          height: 56px;
+          width: 100%;
+          --padding-start: 0px;
+          --inner-padding-start: 0px;
+          --inner-padding-end: 0px;
+  
+          .div-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99;
+            width: 50px;
+            height: 56px;
+            background-color: var(--ion-background-color);
+  
+            ion-thumbnail {
+              width: 40px;
+              height: 40px;
+            }
+          }
+  
+          ion-label {
+            width: calc(100% - 50px);
+            position: absolute;
+            text-align: center;
+            text-wrap: nowrap;
+            z-index: 5;
+  
+            h1 {
+              font-weight: 700;
+              font-size: 20px;
+            }
+  
+            h3 {
+              font-weight: 700;
+              font-size: 12px;
+  
+            }
+          }
+        }
+      }
+  
+     
+  
+    }
+  
+  }

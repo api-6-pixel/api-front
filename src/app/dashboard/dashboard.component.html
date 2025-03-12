@@ -1,0 +1,46 @@
+<ion-content appScrollbar>
+  <ion-grid  class="plantacao-fundo">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-md="5">
+        <ion-card>
+          <ion-card-header>
+            <ion-title class="ion-text-center">
+              <ion-icon name="leaf-outline "></ion-icon> CRESCIMENTO DA COLEITA
+            </ion-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p-chart type="line" [data]="growthData" style="max-width: 100%; height: 120px;"></p-chart>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="12" size-md="5">
+        <ion-card>
+          <ion-card-header>
+            <ion-title class="ion-text-center">
+              <ion-icon name="cash-outline"></ion-icon> PROJEÇÃO FINANCEIRA
+            </ion-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p-chart type="bar" [data]="financeData" style="max-width: 100%; height: 120px;"></p-chart>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-md="5">
+        <ion-card>
+          <ion-card-header>
+            <ion-title class="ion-text-center">
+              <ion-icon name="analytics-outline"></ion-icon> GASTOS COM SOLO
+            </ion-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p-chart type="pie" [data]="soilData" style="max-width: 100%; height: 120px;"></p-chart>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,66 @@
+.plantacao-fundo {
+    background-color: white;
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    image-rendering: crisp-edges; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+ion-card {
+    border-radius: 10px; 
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2); 
+    font-family: "Poppins";
+
+    padding: 15px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    background: linear-gradient(180deg, #ffffff, #f8f9fa); /* Gradiente leve */
+    border: 2px solid #2A7A3E; 
+  }
+  
+  ion-card:hover {
+    transform: scale(1.02); /* Efeito de leve crescimento ao passar o mouse */
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  ion-card-header {
+    background-color: #2A7A3E; 
+    font-family: "Poppins";
+
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px 8px 0 0; 
+    
+  }
+  
+  ion-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; 
+    font-family: "Poppins";
+
+    color: white;
+  }
+  
+  ion-icon {
+    font-size: 22px;
+    color: white;
+  }
+  
+  ion-card-content {
+    padding: 15px;
+    background: #ffffff;
+    border-radius: 0 0 8px 8px; /* Arredondamento na parte inferior */
+  }
+  
+  
+  *{
+    font-family: "Poppins";
+
+  }

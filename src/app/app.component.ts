@@ -100,6 +100,11 @@ export class AppComponent {
         link: 'dashboard',
         icon: 'bar-chart-outline', 
       },
+      {
+        caption:"ATUALIZAÇÃO PLANTIO",
+        link:'atualizacao',
+        icon:'paper-plane-outline'
+      }
     ];
   }
   

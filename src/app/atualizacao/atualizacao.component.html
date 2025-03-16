@@ -1,0 +1,71 @@
+<ion-content appScrollbar>
+  <ion-card>
+    <ion-card-header>
+      <ion-title class="ion-text-center">
+        <ion-icon name="leaf-outline"></ion-icon> FORMULÁRIO DE PLANTAÇÃO
+      </ion-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <!-- SELEÇÃO DO LOTE -->
+          <ion-col size="6">
+            <ion-item>
+              <ion-label position="stacked">SELECIONE UM LOTE *</ion-label>
+              <ion-select (ionChange)="onLoteChange($event)" interface="action-sheet" placeholder="Selecione um Lote" required>
+                <ion-select-option *ngFor="let lote of lotes" [value]="lote.id">{{ lote.nome }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+
+          <!-- ESPÉCIE -->
+          <ion-col size="6">
+            <ion-item>
+              <ion-label position="stacked">ESPÉCIE *</ion-label>
+              <ion-input [(ngModel)]="especie" required></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <!-- CONDIÇÃO AMBIENTAL -->
+          <ion-col size="6">
+            <ion-item>
+              <ion-label position="stacked">CONDIÇÃO AMBIENTAL *</ion-label>
+              <ion-input [(ngModel)]="condicao" required></ion-input>
+            </ion-item>
+          </ion-col>
+
+          <!-- SOLO -->
+          <ion-col size="6">
+            <ion-item>
+              <ion-label position="stacked">SOLO *</ion-label>
+              <ion-input [(ngModel)]="solo" required></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <!-- STATUS DA COLHEITA -->
+          <ion-col size="6">
+            <ion-item>
+              <ion-label position="stacked">STATUS DA COLHEITA *</ion-label>
+              <ion-select [(ngModel)]="statusColheita" placeholder="Selecione o Status" required>
+                <ion-select-option value="Não Iniciado">Não Iniciado</ion-select-option>
+                <ion-select-option value="Em Progresso">Em Progresso</ion-select-option>
+                <ion-select-option value="Finalizado">Finalizado</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+
+          <!-- BOTÃO DE ENVIO -->
+        <ion-col size="6" size-md="4" class="ion-text-center" style="margin-top: 25px; margin-left: 10px;">
+          <ion-button expand="block" type="submit">ENVIAR</ion-button>
+        </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

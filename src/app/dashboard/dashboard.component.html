@@ -1,4 +1,12 @@
-<ion-content appScrollbar>
+<ion-content appScrollbar>  
+  <ion-label style="padding: 13px;  font-family: 'Poppins'">SELECIONE UMA PROJEÇÃO</ion-label>
+  <ion-list>
+    <ion-item>
+      <ion-select aria-label="lotes" interface="action-sheet" placeholder="SELECIONE UMA PROJEÇÃO" (click)="exibirDashboard()">
+        <ion-select-option value="lotes">LOTES</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
   <ion-grid  class="plantacao-fundo">
     <ion-row class="ion-justify-content-center">
       <ion-col size="12" size-md="5">
@@ -9,7 +17,7 @@
             </ion-title>
           </ion-card-header>
           <ion-card-content>
-            <p-chart type="line" [data]="growthData" style="max-width: 100%; height: 120px;"></p-chart>
+            <p-chart *ngIf="exibeDashBoard == true" type="line" [data]="growthData" style="max-width: 100%; height: 120px;"></p-chart>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -22,7 +30,7 @@
             </ion-title>
           </ion-card-header>
           <ion-card-content>
-            <p-chart type="bar" [data]="financeData" style="max-width: 100%; height: 120px;"></p-chart>
+            <p-chart *ngIf="exibeDashBoard == true" type="bar" [data]="financeData" style="max-width: 100%; height: 120px;"></p-chart>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -37,7 +45,7 @@
             </ion-title>
           </ion-card-header>
           <ion-card-content>
-            <p-chart type="pie" [data]="soilData" style="max-width: 100%; height: 120px;"></p-chart>
+            <p-chart *ngIf="exibeDashBoard == true" type="pie" [data]="soilData" style="max-width: 100%; height: 120px;"></p-chart>
           </ion-card-content>
         </ion-card>
       </ion-col>

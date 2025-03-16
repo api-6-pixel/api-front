@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { ButtonModule } from 'primeng/button';
+import { NgIf,NgFor } from '@angular/common';
 import { 
   IonApp, 
   IonSplitPane, 
@@ -23,7 +24,8 @@ import {
   IonToolbar,
   IonHeader,
   IonCard,
-    
+  IonSelect, 
+  IonSelectOption,
   IonGrid,
   IonCardHeader,
   IonRow,
@@ -40,7 +42,8 @@ import { ScrollbarDirective } from '../scrollbar.directive';
     IonApp,
     IonGrid,
     ScrollbarDirective  ,
-
+    IonSelect,
+    IonSelectOption,
     IonRow, 
     IonTitle,
     ChartModule,
@@ -66,23 +69,25 @@ import { ScrollbarDirective } from '../scrollbar.directive';
     IonButtons,
     IonToolbar,
     IonHeader,
-    
-  IonCard,
-  IonCardContent
-],
+    NgFor,
+    NgIf,     
+    IonCard,
+    IonCardContent
+  ],
 })
 
 export class DashboardComponent {
+  exibeDashBoard:boolean = false;
   growthData = {
     labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
     datasets: [
       {
         label: 'Produção (kg)',
         data: [500, 800, 1200, 1500, 1800, 2200],
-        backgroundColor: 'rgba(102, 187, 106, 0.2)',  // Cor de fundo verde (transparente)
-        borderColor: '#66BB6A',  // Cor da linha
+        backgroundColor: 'rgba(102, 187, 106, 0.2)',
+        borderColor: '#66BB6A', 
         borderWidth: 2,
-        fill: true  // Preenche a área abaixo da linha
+        fill: true  
       }
     ]
   };
@@ -108,4 +113,8 @@ export class DashboardComponent {
       }
     ]
   };
+
+  exibirDashboard(){
+    this.exibeDashBoard = true;
+  }
 }

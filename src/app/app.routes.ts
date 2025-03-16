@@ -18,8 +18,8 @@ export const routes: Routes = [
         import('./dashboard/dashboard.component').then((m) => m.DashboardComponent)
   },
   {
-    path:'folder/cadastro',
+    path:'atualizacao',
     loadComponent:() =>
-      import('./cadastro/cadastro.component').then((m) => m.CadastroComponent)
+      import('./atualizacao/atualizacao.component').then((m)=>m.AtualizacaoComponent)
   }
 ];

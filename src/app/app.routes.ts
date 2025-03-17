@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { CadastroPlantioComponent } from './cadastro-plantio/cadastro-plantio.component';
 
 export const routes: Routes = [
   {
@@ -21,5 +22,10 @@ export const routes: Routes = [
     path:'atualizacao',
     loadComponent:() =>
       import('./atualizacao/atualizacao.component').then((m)=>m.AtualizacaoComponent)
+  },
+  {
+    path:'cadastro',
+    loadComponent:() =>
+      import('./cadastro-plantio/cadastro-plantio.component').then((m)=>m.CadastroPlantioComponent)
   }
 ];

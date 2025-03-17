@@ -13,7 +13,8 @@ import {
   archiveOutline, archiveSharp, 
   trashOutline, trashSharp, 
   warningOutline, warningSharp,chevronForwardCircleOutline, chevronForwardOutline, 
-  chevronBackOutline
+  chevronBackOutline,
+  leafOutline
 } from 'ionicons/icons';
 
 @Component({
@@ -87,7 +88,8 @@ export class AppComponent {
       trashOutline, 
       trashSharp, 
       warningOutline, 
-      warningSharp
+      warningSharp,
+      leafOutline
     });
   }
   
@@ -101,10 +103,16 @@ export class AppComponent {
         icon: 'bar-chart-outline', 
       },
       {
+        caption:"CADASTRO PLANTIO",
+        link:'cadastro',
+        icon:'leaf-outline'
+      },
+      {
         caption:"ATUALIZAÇÃO PLANTIO",
         link:'atualizacao',
         icon:'paper-plane-outline'
       }
+      
     ];
   }
   

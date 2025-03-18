@@ -1,4 +1,4 @@
-<ion-content appScrollbar>
+<ion-content>
   <ion-card>
     <ion-card-header>
       <ion-title class="ion-text-center">
@@ -12,58 +12,75 @@
           <!-- SELEÇÃO DO LOTE -->
           <ion-col size="6">
             <ion-item>
-              <ion-label position="stacked">SELECIONE UM LOTE *</ion-label>
-              <ion-select (ionChange)="onLoteChange($event)" interface="action-sheet" placeholder="Selecione um Lote" required>
+              <ion-label position="stacked">SELECIONE UM PLANTIO *</ion-label>
+              <ion-select (ionChange)="capturarValor($event)" interface="action-sheet" placeholder="Selecione um Plantio" required>
                 <ion-select-option *ngFor="let lote of lotes" [value]="lote.id">{{ lote.nome }}</ion-select-option>
               </ion-select>
             </ion-item>
           </ion-col>
 
-          <!-- ESPÉCIE -->
+          <!-- TEMPERATURA AMBIENTE -->
           <ion-col size="6">
             <ion-item>
-              <ion-label position="stacked">ESPÉCIE *</ion-label>
-              <ion-input [(ngModel)]="especie" required></ion-input>
+              <ion-label position="stacked">TEMPERATURA AMBIENTE (°C) *</ion-label>
+              <ion-input type="number" [(ngModel)]="temperaturaAmbiente" required></ion-input>
             </ion-item>
           </ion-col>
         </ion-row>
 
         <ion-row>
-          <!-- CONDIÇÃO AMBIENTAL -->
+          <!-- TEMPERATURA SOLO -->
           <ion-col size="6">
             <ion-item>
-              <ion-label position="stacked">CONDIÇÃO AMBIENTAL *</ion-label>
-              <ion-input [(ngModel)]="condicao" required></ion-input>
+              <ion-label position="stacked">TEMPERATURA DO SOLO (°C) *</ion-label>
+              <ion-input type="number" [(ngModel)]="temperaturaSolo" required></ion-input>
             </ion-item>
           </ion-col>
 
-          <!-- SOLO -->
+          <!-- UMIDADE AMBIENTE -->
           <ion-col size="6">
             <ion-item>
-              <ion-label position="stacked">SOLO *</ion-label>
-              <ion-input [(ngModel)]="solo" required></ion-input>
+              <ion-label position="stacked">UMIDADE AMBIENTE (%) *</ion-label>
+              <ion-input type="number" [(ngModel)]="umidadeAmbiente" required></ion-input>
             </ion-item>
           </ion-col>
         </ion-row>
 
         <ion-row>
-          <!-- STATUS DA COLHEITA -->
+          <!-- UMIDADE SOLO -->
           <ion-col size="6">
             <ion-item>
-              <ion-label position="stacked">STATUS DA COLHEITA *</ion-label>
-              <ion-select [(ngModel)]="statusColheita" placeholder="Selecione o Status" required>
-                <ion-select-option value="Não Iniciado">Não Iniciado</ion-select-option>
-                <ion-select-option value="Em Progresso">Em Progresso</ion-select-option>
-                <ion-select-option value="Finalizado">Finalizado</ion-select-option>
-              </ion-select>
+              <ion-label position="stacked">UMIDADE DO SOLO (%) *</ion-label>
+              <ion-input type="number" [(ngModel)]="umidadeSolo" required></ion-input>
             </ion-item>
           </ion-col>
 
+          <!-- PH SOLO -->
+          <ion-col size="6">
+            <ion-item>
+              <ion-label position="stacked">PH DO SOLO *</ion-label>
+              <ion-input type="number" step="0.1" [(ngModel)]="phSolo" required></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+        
+          <!-- ÍNDICE UV -->
+          <ion-col size="6">
+            <ion-item>
+              <ion-label position="stacked">ÍNDICE UV *</ion-label>
+              <ion-input type="number" [(ngModel)]="indiceUV" required></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+      
+        <ion-row class="ion-justify-content-end">
           <!-- BOTÃO DE ENVIO -->
-        <ion-col size="6" size-md="4" class="ion-text-center" style="margin-top: 25px; margin-left: 10px;">
-          <ion-button expand="block" type="submit">ENVIAR</ion-button>
-        </ion-col>
-
+          <ion-col size="3" size-md="3" class="ion-text-center">
+            <ion-button expand="" type="submit" (click)="enviarDados()">ENVIAR</ion-button>
+          </ion-col>
         </ion-row>
       </ion-grid>
     </ion-card-content>

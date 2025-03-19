@@ -89,9 +89,9 @@ export class AtualizacaoComponent implements OnInit {
   ngOnInit() {}
 
   lotes = [
-    { id: 1, nome: 'Lote 1', especie: 'Milho', condicao: 'Úmido', solo: 'Arenoso', status: 'Em andamento' },
-    { id: 2, nome: 'Lote 2', especie: 'Soja', condicao: 'Seco', solo: 'Argiloso', status: 'Em andamento' },
-    { id: 3, nome: 'Lote 3', especie: 'Trigo', condicao: 'Temperado', solo: 'Humoso', status: 'Finalizada' },
+    { id: 1, nome: 'Milho', especie: 'Milho', condicao: 'Úmido', solo: 'Arenoso', status: 'Em andamento' },
+    { id: 2, nome: 'Soja', especie: 'Soja', condicao: 'Seco', solo: 'Argiloso', status: 'Em andamento' },
+    { id: 3, nome: 'Trigo', especie: 'Trigo', condicao: 'Temperado', solo: 'Humoso', status: 'Finalizada' },
   ];
 
   loteSelecionado: any = null;
@@ -146,7 +146,6 @@ export class AtualizacaoComponent implements OnInit {
       umidadeAmbiente: this.umidadeAmbiente,
       umidadeSolo: this.umidadeSolo,
       phSolo: this.phSolo,
-      precipitacao: this.precipitacao,
       indiceUV: this.indiceUV,
     };
 

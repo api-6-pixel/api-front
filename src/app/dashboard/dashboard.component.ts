@@ -33,6 +33,7 @@ import {
 
 } from '@ionic/angular/standalone';
 import { ScrollbarDirective } from '../scrollbar.directive';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -77,6 +78,9 @@ import { ScrollbarDirective } from '../scrollbar.directive';
 })
 
 export class DashboardComponent {
+  constructor(public router:Router){
+
+  }
   exibeDashBoard:boolean = false;
   growthData = {
     labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
@@ -116,5 +120,9 @@ export class DashboardComponent {
 
   exibirDashboard(){
     this.exibeDashBoard = true;
+  }
+
+  enviarParaCadastroPlantio(){
+    this.router.navigate(['/atualizacao']);
   }
 }

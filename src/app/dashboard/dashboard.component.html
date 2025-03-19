@@ -2,9 +2,15 @@
   <ion-label style="padding: 13px;  font-family: 'Poppins'">SELECIONE UMA PROJEÇÃO</ion-label>
   <ion-list>
     <ion-item>
+      <ion-row>
       <ion-select aria-label="lotes" interface="action-sheet" placeholder="SELECIONE UMA PROJEÇÃO" (click)="exibirDashboard()">
         <ion-select-option value="lotes">LOTES</ion-select-option>
       </ion-select>
+      
+      <ion-col size="3" size-md="3" class="ion-text-center">
+        <ion-button expand="" type="submit" (click)="enviarParaCadastroPlantio()">ATUALIZAR PLANTIO</ion-button>
+      </ion-col>
+    </ion-row>
     </ion-item>
   </ion-list>
   <ion-grid  class="plantacao-fundo">

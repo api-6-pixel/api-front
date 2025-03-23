@@ -9,7 +9,7 @@
     -o-background-size: cover;
 }
 
-ion-card {
+.ion-card-dash {
     border-radius: 10px; 
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2); 
     font-family: "Poppins";
@@ -20,12 +20,12 @@ ion-card {
     border: 2px solid #2A7A3E; 
   }
   
-  ion-card:hover {
+  .ion-card-dash:hover {
     transform: scale(1.02); /* Efeito de leve crescimento ao passar o mouse */
     box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
   }
   
-  ion-card-header {
+  .ion-card-header-dash {
     background-color: #2A7A3E; 
     font-family: "Poppins";
 
@@ -35,8 +35,16 @@ ion-card {
     border-radius: 8px 8px 0 0; 
     
   }
+
+  .ion-card-header{
+        color: var(--color);
+        padding: 10px;
+        text-align: center;
+        border-radius: 8px 8px 0 0; 
+        
+       }
   
-  ion-title {
+  .ion-title-card {
     font-size: 1.2rem;
     font-weight: bold;
     display: flex;

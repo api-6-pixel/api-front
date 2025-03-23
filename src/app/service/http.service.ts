@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
 const API = environment.api;
+const apiIa = environment.apiIa
 @Injectable({
     providedIn: 'root'
   })
@@ -12,6 +13,12 @@ export class HttpService {
   async get(req: string, options?: any){
     return await this.http
       .get(`${API}/${req}`, options)
+      .toPromise()
+      .then((result: any) => result);
+  };
+  async postApiIa(req: string, value: any, p0?: { responseType: string; }){
+    return await this.http
+      .post(`${apiIa}/${req}`, value)
       .toPromise()
       .then((result: any) => result);
   };

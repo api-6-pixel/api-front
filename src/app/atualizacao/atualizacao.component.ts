@@ -150,6 +150,7 @@ export class AtualizacaoComponent implements OnInit {
     };
 
     try {
+      
       const response = await this.http.post("atualizacoes", dados);
       this.exibirToast("Dados enviados com sucesso!", "success");
 

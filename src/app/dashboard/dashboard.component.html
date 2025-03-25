@@ -10,11 +10,17 @@
       <ion-grid>
         <ion-row class="ion-align-items-center">
           <!-- Campo TETO DE GASTOS -->
-          <ion-col size="4">
-            <ion-input labelPlacement="floating" [(ngModel)]="tetoGastos">
-              <div slot="label">LOTE <ion-text color="danger">(Obrigatorio)</ion-text></div>
-            </ion-input>
-          </ion-col>
+            <ion-col size="4">
+              <ion-item>
+                <ion-label position="stacked">SELECIONE UM LOTE *</ion-label>
+                <ion-select (ionChange)="onLoteChange($event)" interface="action-sheet" placeholder="Selecione um Lote" required>
+                  <ion-select-option *ngFor="let lote of lotes" [value]="lote.id">{{ lote.fazendaNome }}</ion-select-option>
+                </ion-select>
+
+                
+              </ion-item>
+            </ion-col>
+
       
           <!-- Campo QUANTIDADE DE MESES -->
           <ion-col size="4">
@@ -29,7 +35,7 @@
                 min-height: 36px;
                 font-size: 0.875rem;
                 font-weight: 500;
-            ">ATUALIZAR PLANTIO
+            ">BUSCAR
             </ion-button>
           </ion-col>
         </ion-row>
@@ -41,10 +47,10 @@
   <ion-grid  class="plantacao-fundo">
     <ion-row class="ion-justify-content-center">
       <ion-col size="12" size-md="5">
-        <ion-card class="ion-card-dash">
+        <ion-card class="ion-card-dash-1">
           <ion-card-header class="ion-card-header-dash">
             <ion-title class="ion-text-center ion-title-white">
-              <ion-icon name="leaf-outline "></ion-icon> CRESCIMENTO DA COLEITA
+               CRESCIMENTO DA COLHEITA
             </ion-title>
           </ion-card-header>
           <ion-card-content>
@@ -57,11 +63,13 @@
         <ion-card class="ion-card-dash">
           <ion-card-header class="ion-card-header-dash">
             <ion-title class="ion-text-center ion-title-white">
-              <ion-icon name="cash-outline"></ion-icon> PROJEÇÃO FINANCEIRA
+              PROJEÇÃO FINANCEIRA
             </ion-title>
           </ion-card-header>
           <ion-card-content>
-            <p-chart *ngIf="exibeDashBoard == true" type="line" [data]="financeData" style="max-width: 100%; height: 120px;"></p-chart>
+            <p class="ion-text-center"><strong>Teto dos Gastos:</strong> R$ {{ tetoGastos  }}</p>
+
+            <p-chart *ngIf="exibeDashBoard == true" type="line" [data]="financeData" [options]="financeOptions" style="max-width: 100%; height: 120px;"></p-chart>
           </ion-card-content>
         </ion-card>
       </ion-col>

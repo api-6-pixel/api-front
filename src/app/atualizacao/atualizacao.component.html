@@ -10,20 +10,22 @@
       <ion-list [inset]="true">
         <ion-grid>
 
-          <!-- SELEÇÃO DO PLANTIO -->
+          <!-- SELEÇÃO DO LOTE -->
           <ion-row>
             <ion-col size="12">
-              <ion-title>PLANTIO</ion-title>
+              <ion-title>LOTE</ion-title>
             </ion-col>
           </ion-row>
           <hr>
           <ion-row>
             <ion-col size="12">
               <ion-item>
-                <ion-label position="stacked">SELECIONE UM PLANTIO *</ion-label>
-                <ion-select (ionChange)="capturarValor($event)" interface="action-sheet" placeholder="Selecione um Plantio" required>
-                  <ion-select-option *ngFor="let lote of lotes" [value]="lote.id">{{ lote.nome }}</ion-select-option>
+                <ion-label position="stacked">SELECIONE UM LOTE *</ion-label>
+                <ion-select (ionChange)="onLoteChange($event)" interface="action-sheet" placeholder="Selecione um Lote" required>
+                  <ion-select-option *ngFor="let lote of lotes" [value]="lote.id">{{ lote.fazendaNome }}</ion-select-option>
                 </ion-select>
+
+                
               </ion-item>
             </ion-col>
           </ion-row>

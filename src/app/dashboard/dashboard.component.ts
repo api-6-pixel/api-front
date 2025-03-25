@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { ButtonModule } from 'primeng/button';
 import { NgIf, NgFor } from '@angular/common';
@@ -82,9 +82,9 @@ import { HttpService } from '../service/http.service';
     IonCardContent
   ],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   constructor(public router: Router, public http: HttpService) {}
-
+  lotes: any[] = [];  
   exibeDashBoard: boolean = false;
   dataSelecionado: any;
   loteSelecionado: any;
@@ -194,47 +194,110 @@ export class DashboardComponent {
       }
     ]
   };
+  
+ 
+  ngOnInit() {
+    const loteString = sessionStorage.getItem("lotes");
+  
+    if (loteString) {
+      try {
+        const loteData = JSON.parse(loteString);
+  
+        if (Array.isArray(loteData)) {
+          this.lotes = loteData;  
+        } else {
+          this.lotes = [loteData];  
+        }
+      } catch (e) {
+        console.error("Erro ao analisar os dados do sessionStorage:", e);
+      }
+    }
+  }
+ onLoteChange(event: any) {
+    const loteId = event.detail.value;
+
+   const selectedLote = this.lotes.find((l: { id: any }) => l.id === loteId);
+    if (selectedLote) {
+      this.loteSelecionado = selectedLote;
+    }
+  }
+
 
   async exibirDashboard() {
     this.exibeDashBoard = true;
     const body = {
       meses_projecao: Number(this.dataSelecionado),
-      teto_gastos: 100
+      teto_gastos: this.tetoGastos
     };
-  
+
     const response = await this.http.postApiIa("projetar_crescimento/v1", body);
-  
+
     const labelData = response.meses.map((item: any) => this.monthsMap[item] || item);
-    const financeData = response.gastos_projetados.map((item: any) => item);
-  
-  
-    const growthDataMapped = response.crescimento.map((item: any) => {
-      if (item === "Alto") return 3;  
-      if (item === "Médio") return 2;  
-      if (item === "Baixo") return 1;  
-      return 0; // Valor padrão
+
+
+    
+    
+    let acumulado = 0;
+    let aux_gastos_projetados = [];
+    aux_gastos_projetados.push(response.gastos_projetados[0])
+    
+    aux_gastos_projetados.push(response.gastos_projetados[response.gastos_projetados.length - 1])
+    alert(aux_gastos_projetados)
+    const financeDataMapped = aux_gastos_projetados.map((percentual: number) => {
+      acumulado += (percentual / 100) * this.tetoGastos;
+      return acumulado;
+  });
+/*
+    let acumulado = 0;
+      const financeDataMapped = response.gastos_projetados.map((percentual: number) => {
+        acumulado += (percentual / 100) * this.tetoGastos;
+        return acumulado;
     });
-  
+*/
+    // Normalizando gastos para criar uma relação entre crescimento e gastos
+    const maxGasto = Math.max(...financeDataMapped);
+    
+    // Criando uma lógica onde maior gasto significa menor crescimento
+    const growthDataMapped = financeDataMapped.map((value: number) => {
+        const normalized = value / maxGasto; // Normaliza os gastos entre 0 e 1
+        if (normalized > 0.7) return 1; // Muito gasto → crescimento ruim
+        if (normalized > 0.4) return 2; // Gasto médio → crescimento médio
+        return 3; // Pouco gasto → crescimento alto
+    });
+
+    let aux = [];
+    aux.push(labelData[0]);  // Primeiro elemento
+    aux.push(labelData[labelData.length - 1]);  // Último elemento
+    
+    alert(aux);
+    
+
+    alert(aux)
+    // Configuração do gráfico de gastos projetados
     this.financeData = {
-      labels: labelData,  
+      labels: aux.map(item=>item),
       datasets: [
         {
-          label: 'Receita (R$)',  
-          data: financeData,  
-          backgroundColor: 'rgba(102, 187, 106, 0.2)',  
-          borderColor: '#66BB6A',  
-          borderWidth: 2,  
-          fill: true  
+          label: 'Gastos Projetados (R$)',
+          data: financeDataMapped,
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: '#FF6384',
+          borderWidth: 2,
+          fill: true
         }
       ]
     };
 
+
+
+
+    // Configuração do gráfico de crescimento
     this.growthData = {
-      labels: labelData,  
+      labels: aux.map(item=>item),
       datasets: [
         {
           label: 'Crescimento',
-          data: growthDataMapped,  
+          data: growthDataMapped,
           backgroundColor: 'rgba(102, 187, 106, 0.2)',
           borderColor: '#66BB6A',
           borderWidth: 2,
@@ -242,9 +305,36 @@ export class DashboardComponent {
         }
       ]
     };
-  }
+
+    // Ajuste da escala do eixo Y para exibir os valores corretamente formatados em reais
+    this.financeOptions = {
+      responsive: true,
+      scales: {
+        y: {
+          title: {
+            display: true,
+            text: 'Gastos Projetados (R$)'
+          },
+          ticks: {
+            callback: (value: number) => `R$ ${value.toLocaleString('pt-BR')}`
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Meses'
+          }
+        }
+      }
+    };
+}
+
+
+  
+  
   
   enviarParaCadastroPlantio() {
     this.router.navigate(['/atualizacao']);
   }
 }
+

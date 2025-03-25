@@ -1,4 +1,3 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -34,9 +33,9 @@ import {
 } from '@ionic/angular/standalone';
 import { ScrollbarDirective } from '../scrollbar.directive';
 import { HttpService } from '../service/http.service';
-import { body } from 'ionicons/icons';
 import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-atualizacao',
@@ -80,27 +79,15 @@ import { Router } from '@angular/router';
     ],
 })
 export class AtualizacaoComponent implements OnInit {
-  constructor(
-    public http:HttpService,
-    public toastController:ToastController,
-    public router:Router
-  ) { }
-
-  ngOnInit() {}
-
-  lotes = [
-    { id: 1, nome: 'Milho', especie: 'Milho', condicao: 'Úmido', solo: 'Arenoso', status: 'Em andamento' },
-    { id: 2, nome: 'Soja', especie: 'Soja', condicao: 'Seco', solo: 'Argiloso', status: 'Em andamento' },
-    { id: 3, nome: 'Trigo', especie: 'Trigo', condicao: 'Temperado', solo: 'Humoso', status: 'Finalizada' },
-  ];
-
+  lotes: any[] = [];  
   loteSelecionado: any = null;
   especie = '';
   condicao = '';
   solo = '';
   statusColheita = '';
   colheitaFinalizada = false;
-  plantacaoId:number = 0;
+  plantacaoId: number = 0;
+  fazendaNome: string = '';
   temperaturaAmbiente: number = 0;
   temperaturaSolo: number = 0;
   umidadeAmbiente: number = 0;
@@ -109,26 +96,49 @@ export class AtualizacaoComponent implements OnInit {
   precipitacao: number = 0;
   indiceUV: number = 0;
 
+  constructor(
+    public http: HttpService,
+    public toastController: ToastController,
+    public router: Router
+  ) { }
+
+  ngOnInit() {
+    const loteString = sessionStorage.getItem("lotes");
+  
+    if (loteString) {
+      try {
+        const loteData = JSON.parse(loteString);
+  
+        if (Array.isArray(loteData)) {
+          this.lotes = loteData;  
+        } else {
+          this.lotes = [loteData];  
+        }
+      } catch (e) {
+        console.error("Erro ao analisar os dados do sessionStorage:", e);
+      }
+    }
+  }
+  
+  
+
   onLoteChange(event: any) {
     const loteId = event.detail.value;
-    const lote = this.lotes.find(l => l.id === loteId);
-    if (lote) {
-      this.especie = lote.especie;
-      this.condicao = lote.condicao;
-      this.solo = lote.solo;
-      this.statusColheita = lote.status;
-      this.colheitaFinalizada = lote.status === 'Finalizada';
+
+   const selectedLote = this.lotes.find((l: { id: any }) => l.id === loteId);
+    if (selectedLote) {
+      this.loteSelecionado = selectedLote;
+      this.plantacaoId = selectedLote.id;
+      this.fazendaNome = selectedLote.fazendaNome;
+      this.especie = selectedLote.especieNome;
+      this.solo = selectedLote.tipoSolo;
+      this.statusColheita = selectedLote.status;
     }
   }
 
-  finalizarColheita(event: any) {
-    this.colheitaFinalizada = event.detail.checked;
-    this.statusColheita = this.colheitaFinalizada ? 'Finalizada' : 'Em andamento';
-  }
+ 
 
-  capturarValor(event:any){
-    this.plantacaoId = event?.target?.value  
-  }
+  
 
   async enviarDados() {
     if (!this.plantacaoId || this.temperaturaAmbiente === null || this.temperaturaSolo === null || 
@@ -141,6 +151,7 @@ export class AtualizacaoComponent implements OnInit {
 
     const dados = {
       plantacaoId: this.plantacaoId,
+      fazendaNome: this.fazendaNome,
       temperaturaAmbiente: this.temperaturaAmbiente,
       temperaturaSolo: this.temperaturaSolo,
       umidadeAmbiente: this.umidadeAmbiente,
@@ -149,19 +160,17 @@ export class AtualizacaoComponent implements OnInit {
       indiceUV: this.indiceUV,
     };
 
-    try {
-      
-      const response = await this.http.post("atualizacoes", dados);
-      this.exibirToast("Dados enviados com sucesso!", "success");
-
-      this.router.navigate(['/dashboard']);
-    } catch (error:any) {
-
+   
+      this.http.post("atualizacoes", dados).then((response) =>    {
+          this.exibirToast("Dados enviados com sucesso!", "success")
+          this.router.navigate(['/dashboard']);
+        }
+        ).catch((error) => {
       const mensagemErro = error?.message || "Erro desconhecido";
       this.exibirToast(`Erro ao enviar os dados! Erro: ${mensagemErro}`, "danger");
-    }
+    });
+    
   }
-
 
   async exibirToast(mensagem: string, cor: string) {
     const toast = await this.toastController.create({
@@ -173,4 +182,3 @@ export class AtualizacaoComponent implements OnInit {
     await toast.present();
   }
 }
-

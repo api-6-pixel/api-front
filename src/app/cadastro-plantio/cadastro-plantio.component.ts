@@ -127,9 +127,9 @@ export class CadastroPlantioComponent implements OnInit {
     private httpService: HttpService,
     private router: Router,
     public toastController: ToastController
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   async enviarDados() {
     if (
@@ -151,7 +151,7 @@ export class CadastroPlantioComponent implements OnInit {
       especieNome: this.nomeEspecie,
       areaPlantada: this.areaPlantada,
       custoEsperado: this.valorGastos,
-      status: 0, //Descobrir esse campo com Danilo
+      status: "EM_CRESCIMENTO",
       temperaturaAmbiente: this.temperaturaAmbiente,
       temperaturaSolo: this.temperaturaSolo,
       umidadeAmbiente: this.umidadeAmbiente,
@@ -163,14 +163,24 @@ export class CadastroPlantioComponent implements OnInit {
     this.httpService
       .post('plantacoes', dados)
       .then((response) => {
-        alert('Cadastro realizado com sucesso!');
+
+        let lotesSalvos = sessionStorage.getItem("lotes");
+
+        let array = lotesSalvos ? JSON.parse(lotesSalvos) : [];
+
+        array.push(response);
+
+        sessionStorage.setItem("lotes", JSON.stringify(array));
+        this.exibirToast("Dados enviados com sucesso!", "success")
+
         this.router.navigate(['/dashboard']);
       })
       .catch((error) => {
-        alert(
-          'Erro ao enviar cadastro! Verifique sua conexão e tente novamente.'
-        );
+        const mensagemErro = error?.message || "Erro desconhecido";
+        this.exibirToast(`Erro ao enviar os dados! Erro: ${mensagemErro}`, "danger");
+
       });
+
   }
 
   async exibirToast(mensagem: string, cor: string) {

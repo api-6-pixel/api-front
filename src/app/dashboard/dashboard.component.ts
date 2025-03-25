@@ -257,9 +257,8 @@ export class DashboardComponent implements OnInit {
     // Normalizando gastos para criar uma relação entre crescimento e gastos
     const maxGasto = Math.max(...financeDataMapped);
     
-    // Criando uma lógica onde maior gasto significa menor crescimento
     const growthDataMapped = financeDataMapped.map((value: number) => {
-        const normalized = value / maxGasto; // Normaliza os gastos entre 0 e 1
+        const normalized = value / maxGasto; 
         if (normalized > 0.7) return 1; // Muito gasto → crescimento ruim
         if (normalized > 0.4) return 2; // Gasto médio → crescimento médio
         return 3; // Pouco gasto → crescimento alto

@@ -256,18 +256,7 @@ export class DashboardComponent implements OnInit {
         return 3;
     });
 
-<<<<<<< HEAD
-    let aux = [];
-    aux.push(labelData[0]);  // Primeiro elemento
-    aux.push(labelData[labelData.length - 1]);  // Último elemento
-    
-    alert(aux);
-    
-    alert(aux)
-    // Configuração do gráfico de gastos projetados
-=======
     // Gráfico final
->>>>>>> 55a08af5e280ce28eb3270032ece69ba5147943f
     this.financeData = {
       labels: response.meses,
       datasets: [
@@ -283,10 +272,7 @@ export class DashboardComponent implements OnInit {
       ]
     };
 
-<<<<<<< HEAD
     // Configuração do gráfico de crescimento
-=======
->>>>>>> 55a08af5e280ce28eb3270032ece69ba5147943f
     this.growthData = {
       labels: response.meses,
       datasets: [
@@ -322,15 +308,6 @@ export class DashboardComponent implements OnInit {
       }
     };
 }
-<<<<<<< HEAD
-=======
-
-
-
-  
-  
-  
->>>>>>> 55a08af5e280ce28eb3270032ece69ba5147943f
   enviarParaCadastroPlantio() {
     this.router.navigate(['/atualizacao']);
   }

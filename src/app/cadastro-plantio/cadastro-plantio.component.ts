@@ -151,7 +151,8 @@ export class CadastroPlantioComponent implements OnInit {
       especieNome: this.nomeEspecie,
       areaPlantada: this.areaPlantada,
       custoEsperado: this.valorGastos,
-      status: 0, //Descobrir esse campo com Danilo
+      status: "EM_CRESCIMENTO", 
+      tipoSolo:'Arido',
       temperaturaAmbiente: this.temperaturaAmbiente,
       temperaturaSolo: this.temperaturaSolo,
       umidadeAmbiente: this.umidadeAmbiente,

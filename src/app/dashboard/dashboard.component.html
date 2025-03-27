@@ -1,46 +1,81 @@
 <ion-content appScrollbar>
+  <ion-card>
+    <ion-card-header>
+      <ion-title class="ion-text-center ">
+        DASHBOARD
+      </ion-title>
+    </ion-card-header>
+    <ion-list>
+    <ion-item>
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <!-- Campo TETO DE GASTOS -->
+            <ion-col size="4">
+              <ion-item>
+                <ion-label position="stacked">SELECIONE UM LOTE *</ion-label>
+                <ion-select (ionChange)="onLoteChange($event)" interface="action-sheet" placeholder="Selecione um Lote" required>
+                  <ion-select-option *ngFor="let lote of lotes" [value]="lote.id">{{ lote.fazendaNome }}</ion-select-option>
+                </ion-select>
+
+
+              </ion-item>
+            </ion-col>
+
+
+          <!-- Campo QUANTIDADE DE MESES -->
+          <ion-col size="4">
+            <ion-input labelPlacement="floating" [(ngModel)]="dataSelecionado">
+              <div slot="label">QUANTIDADE DE MESES <ion-text color="danger">(Obrigatorio)</ion-text></div>
+            </ion-input>
+          </ion-col>
+
+          <!-- Botão ATUALIZAR PLANTIO -->
+          <ion-col size="4" class="ion-text-center">
+            <ion-button expand="block" (click)="exibirDashboard()" style="
+                min-height: 36px;
+                font-size: 0.875rem;
+                font-weight: 500;
+            ">BUSCAR
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ion-item>
+  </ion-list>
+
   <ion-grid  class="plantacao-fundo">
     <ion-row class="ion-justify-content-center">
-      <ion-col size="12" size-md="5">
-        <ion-card>
-          <ion-card-header>
-            <ion-title class="ion-text-center">
-              <ion-icon name="leaf-outline "></ion-icon> CRESCIMENTO DA COLEITA
+      <ion-col size="12" size-md="6">
+        <ion-card class="ion-card-dash-1">
+          <ion-card-header class="ion-card-header-dash">
+            <ion-title class="ion-text-center ion-title-white">
+               CRESCIMENTO DA COLHEITA
             </ion-title>
           </ion-card-header>
           <ion-card-content>
-            <p-chart type="line" [data]="growthData" style="max-width: 100%; height: 120px;"></p-chart>
+            <p-chart *ngIf="exibeDashBoard == true" type="line" [data]="growthData" [options]="growthOptions"></p-chart>
           </ion-card-content>
         </ion-card>
       </ion-col>
 
-      <ion-col size="12" size-md="5">
-        <ion-card>
-          <ion-card-header>
-            <ion-title class="ion-text-center">
-              <ion-icon name="cash-outline"></ion-icon> PROJEÇÃO FINANCEIRA
+      <ion-col size="12" size-md="6">
+        <ion-card class="ion-card-dash-1">
+          <ion-card-header class="ion-card-header-dash">
+            <ion-title class="ion-text-center ion-title-white">
+              PROJEÇÃO FINANCEIRA
             </ion-title>
           </ion-card-header>
           <ion-card-content>
-            <p-chart type="bar" [data]="financeData" style="max-width: 100%; height: 120px;"></p-chart>
+            <p class="ion-text-center"><strong>Teto dos Gastos:</strong> R$ {{ tetoGastos  }}</p>
+
+            <p-chart *ngIf="exibeDashBoard == true" type="line" [data]="financeData" [options]="financeOptions" ></p-chart>
           </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
 
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="12" size-md="5">
-        <ion-card>
-          <ion-card-header>
-            <ion-title class="ion-text-center">
-              <ion-icon name="analytics-outline"></ion-icon> GASTOS COM SOLO
-            </ion-title>
-          </ion-card-header>
-          <ion-card-content>
-            <p-chart type="pie" [data]="soilData" style="max-width: 100%; height: 120px;"></p-chart>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
   </ion-grid>
+</ion-card>
+
 </ion-content>

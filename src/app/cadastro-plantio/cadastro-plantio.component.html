@@ -1,0 +1,197 @@
+<ion-content appScrollbar>
+  <ion-card>
+    <ion-card-header>
+      <ion-title class="ion-text-center">
+        <ion-icon name="leaf-outline"></ion-icon> CADASTRO DE LOTE
+      </ion-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list [inset]="true">
+        <ion-grid>
+          <!-- SELEÇÃO DO PLANTIO -->
+          <ion-row>
+            <ion-col size="12">
+              <ion-title>LOTE</ion-title>
+            </ion-col>
+          </ion-row>
+          <hr />
+          <ion-row>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked">CADASTRE SEU LOTE *</ion-label>
+                <ion-input [placeholder]="'Digite aqui'"
+                  type="text"
+                  [(ngModel)]="cadastroPlantio"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked">AREA PLANTADA *</ion-label
+                >
+                <ion-input [placeholder]="0"
+                  type="number"
+                  [(ngModel)]="areaPlantada"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- ESPECIE -->
+          <ion-row>
+            <ion-col size="12">
+              <ion-title>ESPECIE</ion-title>
+            </ion-col>
+          </ion-row>
+          <hr />
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="stacked">NOME *</ion-label>
+                <ion-input [placeholder]="'Digite aqui'"
+                  type="text"
+                  [(ngModel)]="nomeEspecie"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- TEMPERATURA -->
+          <ion-row>
+            <ion-col size="12">
+              <ion-title>TEMPERATURA</ion-title>
+            </ion-col>
+          </ion-row>
+          <hr />
+          <ion-row>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked"
+                  >TEMPERATURA AMBIENTE (°C) *</ion-label
+                >
+                <ion-input [placeholder]="0"
+                  type="number"
+                  [(ngModel)]="temperaturaAmbiente"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked"
+                  >TEMPERATURA DO SOLO (°C) *</ion-label
+                >
+                <ion-input [placeholder]="0"
+                  type="number"
+                  [(ngModel)]="temperaturaSolo"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- UMIDADE -->
+          <ion-row>
+            <ion-col size="12">
+              <ion-title>UMIDADE</ion-title>
+            </ion-col>
+          </ion-row>
+          <hr />
+          <ion-row>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked">UMIDADE AMBIENTE (%) *</ion-label>
+                <ion-input [placeholder]="0"
+                  type="number"
+                  [(ngModel)]="umidadeAmbiente"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked">UMIDADE DO SOLO (%) *</ion-label>
+                <ion-input [placeholder]="0"
+                  type="number"
+                  [(ngModel)]="umidadeSolo"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- CONDIÇÕES DO SOLO E ÍNDICE UV -->
+          <ion-row>
+            <ion-col size="12">
+              <ion-title>CONDIÇÕES DO SOLO</ion-title>
+            </ion-col>
+          </ion-row>
+          <hr />
+          <ion-row>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked">PH DO SOLO *</ion-label>
+                <ion-input [placeholder]="0"
+                  type="number"
+                  step="0.1"
+                  [(ngModel)]="phSolo"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked">ÍNDICE UV *</ion-label>
+                <ion-input [placeholder]="0"
+                  type="number"
+                  [(ngModel)]="indiceUV"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- UMIDADE -->
+          <ion-row>
+            <ion-col size="12">
+              <ion-title>CUSTO</ion-title>
+            </ion-col>
+          </ion-row>
+          <hr />
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="stacked"
+                  >VALOR ESPERADO DE GASTOS*</ion-label
+                >
+                <ion-input [placeholder]="0"
+                  type="number"
+                  [(ngModel)]="valorGastos"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- BOTÃO ENVIAR -->
+          <ion-row class="ion-justify-content-end">
+            <ion-col
+              size="6"
+              size-md="4"
+              class="ion-text-center"
+              style="margin-top: 25px; margin-left: 10px"
+            >
+              <ion-button expand="block" type="submit" (click)="enviarDados()"
+                >ENVIAR</ion-button
+              >
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

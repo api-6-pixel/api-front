@@ -4,7 +4,7 @@ import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent 
 import { DashboardComponent } from '../dashboard/dashboard.component';
 
 import { NgIf } from '@angular/common'
-import { CadastroComponent } from '../cadastro/cadastro.component';
+import { AtualizacaoComponent } from '../atualizacao/atualizacao.component';
 
 @Component({
   selector: 'app-folder',
@@ -13,7 +13,7 @@ import { CadastroComponent } from '../cadastro/cadastro.component';
   imports: [
     IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent,
     DashboardComponent,
-    CadastroComponent,
+    AtualizacaoComponent,
     NgIf 
   ],
 })

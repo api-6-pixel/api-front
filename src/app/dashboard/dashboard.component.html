@@ -24,14 +24,14 @@
       
           <!-- Campo QUANTIDADE DE MESES -->
           <ion-col size="4">
-            <ion-input labelPlacement="floating" [(ngModel)]="dataSelecionado" (ionBlur)="exibirDashboard()">
+            <ion-input labelPlacement="floating" [(ngModel)]="dataSelecionado">
               <div slot="label">QUANTIDADE DE MESES <ion-text color="danger">(Obrigatorio)</ion-text></div>
             </ion-input>
           </ion-col>
       
           <!-- Botão ATUALIZAR PLANTIO -->
           <ion-col size="4" class="ion-text-center">
-            <ion-button expand="block" style="
+            <ion-button expand="block" (click)="exibirDashboard()" style="
                 min-height: 36px;
                 font-size: 0.875rem;
                 font-weight: 500;

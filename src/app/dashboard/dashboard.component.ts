@@ -270,7 +270,6 @@ export class DashboardComponent implements OnInit {
     
     alert(aux);
     
-
     alert(aux)
     // Configuração do gráfico de gastos projetados
     this.financeData = {
@@ -286,9 +285,6 @@ export class DashboardComponent implements OnInit {
         }
       ]
     };
-
-
-
 
     // Configuração do gráfico de crescimento
     this.growthData = {
@@ -327,11 +323,6 @@ export class DashboardComponent implements OnInit {
       }
     };
 }
-
-
-  
-  
-  
   enviarParaCadastroPlantio() {
     this.router.navigate(['/atualizacao']);
   }

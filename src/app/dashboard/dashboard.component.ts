@@ -223,76 +223,57 @@ export class DashboardComponent implements OnInit {
   }
 
 
+
+ 
+ 
   async exibirDashboard() {
     this.exibeDashBoard = true;
+
     const body = {
       meses_projecao: Number(this.dataSelecionado),
-      teto_gastos: this.tetoGastos
+      fazenda_nome: this.loteSelecionado?.fazendaNome
     };
 
     const response = await this.http.postApiIa("projetar_crescimento/v1", body);
 
-    const labelData = response.meses.map((item: any) => this.monthsMap[item] || item);
+    const firstValue = (response.gastos_projetados[0] / 100) * response.teto_gastos;
+    const lastValue = (response.gastos_projetados[response.gastos_projetados.length - 1] / 100) * response.teto_gastos;
 
+    const totalPontos = response.meses.length;
 
-    
-    
-    let acumulado = 0;
-    let aux_gastos_projetados = [];
-    aux_gastos_projetados.push(response.gastos_projetados[0])
-    
-    aux_gastos_projetados.push(response.gastos_projetados[response.gastos_projetados.length - 1])
-    alert(aux_gastos_projetados)
-    const financeDataMapped = aux_gastos_projetados.map((percentual: number) => {
-      acumulado += (percentual / 100) * this.tetoGastos;
-      return acumulado;
-  });
-/*
-    let acumulado = 0;
-      const financeDataMapped = response.gastos_projetados.map((percentual: number) => {
-        acumulado += (percentual / 100) * this.tetoGastos;
-        return acumulado;
+    // Interpolação pura
+    const financeDataMapped = response.meses.map((_: any, idx: number) => {
+        const t = idx / (totalPontos - 1);
+        return firstValue + t * (lastValue - firstValue);
     });
-*/
-    // Normalizando gastos para criar uma relação entre crescimento e gastos
+
     const maxGasto = Math.max(...financeDataMapped);
-    
+    this.tetoGastos = response.teto_gastos;
     const growthDataMapped = financeDataMapped.map((value: number) => {
         const normalized = value / maxGasto; 
-        if (normalized > 0.7) return 1; // Muito gasto → crescimento ruim
-        if (normalized > 0.4) return 2; // Gasto médio → crescimento médio
-        return 3; // Pouco gasto → crescimento alto
+        if (normalized > 0.7) return 1;
+        if (normalized > 0.4) return 2;
+        return 3;
     });
 
-    let aux = [];
-    aux.push(labelData[0]);  // Primeiro elemento
-    aux.push(labelData[labelData.length - 1]);  // Último elemento
-    
-    alert(aux);
-    
-
-    alert(aux)
-    // Configuração do gráfico de gastos projetados
+    // Gráfico final
     this.financeData = {
-      labels: aux.map(item=>item),
+      labels: response.meses,
       datasets: [
         {
           label: 'Gastos Projetados (R$)',
           data: financeDataMapped,
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderColor: '#FF6384',
+          backgroundColor: 'rgba(33, 150, 243, 0.2)',
+
+          borderColor: '#2196F3',
           borderWidth: 2,
           fill: true
         }
       ]
     };
 
-
-
-
-    // Configuração do gráfico de crescimento
     this.growthData = {
-      labels: aux.map(item=>item),
+      labels: response.meses,
       datasets: [
         {
           label: 'Crescimento',
@@ -305,7 +286,6 @@ export class DashboardComponent implements OnInit {
       ]
     };
 
-    // Ajuste da escala do eixo Y para exibir os valores corretamente formatados em reais
     this.financeOptions = {
       responsive: true,
       scales: {
@@ -327,6 +307,7 @@ export class DashboardComponent implements OnInit {
       }
     };
 }
+
 
 
   

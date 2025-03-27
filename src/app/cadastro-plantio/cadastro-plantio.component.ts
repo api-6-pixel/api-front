@@ -134,14 +134,15 @@ export class CadastroPlantioComponent implements OnInit {
   async enviarDados() {
     if (
       !this.cadastroPlantio ||
-      this.nomeEspecie === null ||
+      this.nomeEspecie.length == 0 ||
       this.temperaturaSolo === null ||
       this.umidadeAmbiente === null ||
       this.umidadeSolo === null ||
       this.phSolo === null ||
       this.indiceUV === null ||
       this.areaPlantada === null ||
-      this.valorGastos === null
+      this.valorGastos === null ||
+      this.temperaturaAmbiente === null
     ) {
       this.exibirToast('Preencha todos os campos obrigatórios!', 'danger');
       return;

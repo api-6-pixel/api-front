@@ -241,20 +241,30 @@ export class DashboardComponent implements OnInit {
 
     const totalPontos = response.meses.length;
 
-    // Interpolação pura
-    const financeDataMapped = response.meses.map((_: any, idx: number) => {
-        const t = idx / (totalPontos - 1);
-        return firstValue + t * (lastValue - firstValue);
-    });
+
+    
+    const growthFactors = response.crescimento.map((nivel: string) => { 
+      if (nivel === "Baixo") return 0.85;  
+      if (nivel === "Médio") return 1.0;   
+      return 3.0;                        
+  });
+  
+
+  const financeDataMapped: number[] = response.gastos_projetados.map((gasto: number) => 
+    (gasto / 100) * response.teto_gastos
+);
+
+  
 
     const maxGasto = Math.max(...financeDataMapped);
     this.tetoGastos = response.teto_gastos;
-    const growthDataMapped = financeDataMapped.map((value: number) => {
-        const normalized = value / maxGasto; 
-        if (normalized > 0.7) return 1;
-        if (normalized > 0.4) return 2;
-        return 3;
-    });
+   
+    const growthDataMapped = response.crescimento.map((nivel: string) => {
+      if (nivel === "Baixo") return 1;
+      if (nivel === "Médio") return 2;
+      return 3; 
+  });
+  
 
     // Gráfico final
     this.financeData = {
@@ -262,17 +272,15 @@ export class DashboardComponent implements OnInit {
       datasets: [
         {
           label: 'Gastos Projetados (R$)',
-          data: financeDataMapped,
+          data: response.gastos_projetados.map((p: number) => (p / 100) * response.teto_gastos), // só faz o cálculo do teto
           backgroundColor: 'rgba(33, 150, 243, 0.2)',
-
           borderColor: '#2196F3',
           borderWidth: 2,
           fill: true
         }
       ]
-    };
-
-    // Configuração do gráfico de crescimento
+  };
+  
     this.growthData = {
       labels: response.meses,
       datasets: [
@@ -308,6 +316,7 @@ export class DashboardComponent implements OnInit {
       }
     };
 }
+
   enviarParaCadastroPlantio() {
     this.router.navigate(['/atualizacao']);
   }

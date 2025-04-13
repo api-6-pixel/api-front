@@ -1,0 +1,99 @@
+<ion-content appScrollbar>
+  <ion-card>
+    <ion-card-header>
+      <ion-title class="ion-text-center">
+        <ion-icon name="leaf-outline"></ion-icon> CADASTRO DE USUARIO
+      </ion-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list [inset]="true">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12">
+              <ion-title>LOGIN</ion-title>
+            </ion-col>
+          </ion-row>
+          <hr />
+          <ion-row>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked">CADASTRE SEU EMAIL *</ion-label>
+                <ion-input [placeholder]="'Digite aqui o email'"
+                  type="email"
+                  [(ngModel)]="email"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked">SENHA *</ion-label
+                >
+                <ion-input 
+                  type="password"
+                  [(ngModel)]="senha"
+                  [placeholder]="'Digite aqui sua senha'"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- ESPECIE -->
+          <ion-row>
+            <ion-col size="12">
+              <ion-title>USUARIO</ion-title>
+            </ion-col>
+          </ion-row>
+          <hr />
+          <ion-row>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked">NOME DE USUARIO *</ion-label>
+                <ion-input [placeholder]="'Digite aqui o nome do usuario'"
+                  type="text"
+                  [(ngModel)]="usuarioNome"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked">CPF *</ion-label>
+                <ion-input [placeholder]="'Digite aqui os digitos do cpf'"
+                  type="text"
+                  [(ngModel)]="cpf"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <hr />
+
+          <ion-item lines="none">
+            <ion-checkbox slot="start"></ion-checkbox>
+            <ion-label (click)="openModal()" class="ion-text-wrap" style="cursor: pointer;">
+              Li e estou de acordo com os <strong>termos de condições</strong>
+            </ion-label>
+          </ion-item>
+          
+          <!-- BOTÃO ENVIAR -->
+          <ion-row class="ion-justify-content-end">
+            <ion-col
+              size="6"
+              size-md="4"
+              class="ion-text-center"
+              style="margin-top: 25px; margin-left: 10px"
+            >
+              <ion-button expand="block" type="submit" 
+                >ENVIAR</ion-button
+              >
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

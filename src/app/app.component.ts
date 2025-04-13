@@ -14,7 +14,8 @@ import {
   trashOutline, trashSharp, 
   warningOutline, warningSharp,chevronForwardCircleOutline, chevronForwardOutline, 
   chevronBackOutline,
-  leafOutline
+  leafOutline,
+  personAddOutline
 } from 'ionicons/icons';
 
 @Component({
@@ -77,6 +78,7 @@ export class AppComponent {
     addIcons({
       mailOutline, 
       barChartOutline,
+      personAddOutline,
       mailSharp, 
       paperPlaneOutline, 
       paperPlaneSharp, 
@@ -111,6 +113,11 @@ export class AppComponent {
         caption:"ATUALIZAÇÃO PLANTIO",
         link:'atualizacao',
         icon:'paper-plane-outline'
+      },
+      {
+        caption:"CADASTRO USUARIO",
+        link:'cadastrousuario',
+        icon: 'person-add-outline'
       }
       
     ];

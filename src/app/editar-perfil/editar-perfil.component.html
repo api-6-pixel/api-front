@@ -1,0 +1,200 @@
+<ion-content appScrollbar>
+  <ion-card>
+    <ion-card-header>
+      <ion-title class="ion-text-center">
+        <ion-icon name="leaf-outline"></ion-icon> MEU PERFIL
+      </ion-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list [inset]="true">
+        <ion-grid>
+          <!-- MEU PERFIL-->
+          <ion-row>
+            <ion-col size="12">
+              <ion-title>MINHAS INFORMAÇÕES</ion-title>
+            </ion-col>
+          </ion-row>
+          <hr />
+          <ion-row>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked">INFO1 *</ion-label>
+                <ion-input [placeholder]="'Digite aqui'"
+                  type="text"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked">INFO2 *</ion-label
+                >
+                <ion-input [placeholder]="0"
+                  type="number"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- ** -->
+          <ion-row>
+            <ion-col size="12">
+              <ion-title>INFO3</ion-title>
+            </ion-col>
+          </ion-row>
+          <hr />
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="stacked">INFO4 *</ion-label>
+                <ion-input [placeholder]="'Digite aqui'"
+                  type="text"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- * -->
+          <ion-row>
+            <ion-col size="12">
+              <ion-title>INFO5</ion-title>
+            </ion-col>
+          </ion-row>
+          <hr />
+          <ion-row>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked"
+                  >INFO6 *</ion-label
+                >
+                <ion-input [placeholder]="0"
+                  type="number"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked"
+                  >INFO7 *</ion-label
+                >
+                <ion-input [placeholder]="0"
+                  type="number"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- UMIDADE -->
+          <ion-row>
+            <ion-col size="12">
+              <ion-title>+</ion-title>
+            </ion-col>
+          </ion-row>
+          <hr />
+          <ion-row>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked">INFO8 *</ion-label>
+                <ion-input [placeholder]="0"
+                  type="number"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked">INFO9 *</ion-label>
+                <ion-input [placeholder]="0"
+                  type="number"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- CONDIÇÕES DO SOLO E ÍNDICE UV -->
+          <ion-row>
+            <ion-col size="12">
+              <ion-title>+</ion-title>
+            </ion-col>
+          </ion-row>
+          <hr />
+          <ion-row>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked">INFO10 *</ion-label>
+                <ion-input [placeholder]="0"
+                  type="number"
+                  step="0.1"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked">INFO11 *</ion-label>
+                <ion-input [placeholder]="0"
+                  type="number"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- UMIDADE -->
+          <ion-row>
+            <ion-col size="12">
+              <ion-title>INFO13</ion-title>
+            </ion-col>
+          </ion-row>
+          <hr />
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="stacked"
+                  >INFO14</ion-label
+                >
+                <ion-input [placeholder]="0"
+                  type="number"
+                  required
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- BOTÃO DELETAR CONTA -->
+          <ion-row class="ion-justify-content-end">
+            <ion-col
+              size="6"
+              size-md="4"
+              class="ion-text-center"
+              style="margin-top: 25px; margin-left: 10px"
+            >
+              <ion-button color="danger" expand="block" type="submit"
+              >DELETAR CONTA</ion-button
+              >
+            </ion-col>
+          
+          <!-- BOTÃO ATUALIZAR -->
+            <ion-col
+              size="6"
+              size-md="4"
+              class="ion-text-center"
+              style="margin-top: 25px; margin-left: 10px"
+            >
+              <ion-button expand="block" type="submit" 
+                >ATUALIZAR</ion-button
+              >
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+

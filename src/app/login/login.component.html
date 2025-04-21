@@ -16,17 +16,17 @@
         <ion-grid class="login-grid">
           <ion-row>
             <ion-col size="12">
-                <ion-input type="email" placeholder="Digite seu login" required>     <ion-icon slot="start" name="person-outline"></ion-icon>
+                <ion-input type="email" placeholder="Digite seu login" [(ngModel)]="email" required><ion-icon slot="start" name="person-outline"></ion-icon>
                 </ion-input>
             </ion-col>
         
             <ion-col size="12">
-                <ion-input type="password" placeholder="Digite sua senha" required><ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+                <ion-input type="password" placeholder="Digite sua senha" [(ngModel)]="senha" required><ion-icon slot="start" name="lock-closed-outline"></ion-icon>
                 </ion-input>
             </ion-col>
         
             <ion-col size="12">
-              <ion-button expand="block" class="btn-primary">Entrar</ion-button>
+              <ion-button expand="block" class="btn-primary" (click)="tryLogin()">Entrar</ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>

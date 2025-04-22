@@ -9,6 +9,7 @@ import {
   IonNote,
   IonMenuToggle,
   IonItem,
+  IonText,
   IonIcon,
   IonLabel,
   IonRouterOutlet,
@@ -29,9 +30,13 @@ import {
   IonRow,
   IonCardContent,
 } from '@ionic/angular/standalone';
+
+import { ToastController } from '@ionic/angular';
 import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ScrollbarDirective } from '../scrollbar.directive';
+import { UsuarioService } from '../service/usuario.service';
+import { UsuarioDTO } from '../interfaces/usuario-model';
 
 @Component({
   selector: 'app-editar-perfil',
@@ -71,13 +76,50 @@ import { ScrollbarDirective } from '../scrollbar.directive';
     NgFor,
     NgIf,
     IonCard,
+    IonText,
     IonCardContent,
   ],
 })
 export class EditarPerfilComponent  implements OnInit {
-
-  constructor() { }
+  usuarioData!: UsuarioDTO
+  
+  constructor(private usuarioService: UsuarioService, private toastController: ToastController) { }
 
   ngOnInit() {}
 
+  carregarUsuario() {
+    this.usuarioService.obterUsuario(1)
+      .subscribe({
+        next: (res) => {
+          this.usuarioData = res;
+        }
+      });
+  }
+
+  atualizarUsuario(){
+    const invalido = Object.keys(this.usuarioData).some((v,i) => !v)
+    if(invalido){
+      this.exibirToast("Preencha todos os campos obrigatórios!", "danger");
+      return;
+    }
+    this.usuarioService.atualizarUsuario(1)
+      .subscribe({
+        next: () => {
+          this.exibirToast("Dados enviados com sucesso!", "success")
+        },
+        error: _ => {
+          this.exibirToast(`Erro ao enviar os dados!`, "danger");
+        }
+      });
+  }
+
+  exibirToast(mensagem: string, cor: string) {
+    this.toastController.create({
+      message: mensagem,
+      duration: 3000,
+      position: 'bottom',
+      color: cor,
+    })
+    .then( x => x.present());
+  }
 }

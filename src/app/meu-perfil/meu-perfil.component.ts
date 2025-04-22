@@ -33,10 +33,9 @@ import {
 import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ScrollbarDirective } from '../scrollbar.directive';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { UsuarioDTO } from 'src/app/interfaces/usuario-model';
+import { UsuarioService } from '../service/usuario.service';
 
 @Component({
   selector: 'app-meu-perfil',
@@ -84,15 +83,12 @@ import { UsuarioDTO } from 'src/app/interfaces/usuario-model';
 
 
 export class MeuPerfilComponent  implements OnInit {
-  private baseUrl = environment.api; 
-  
-
   usuarioData: UsuarioDTO | undefined;
 
-  constructor(private http: HttpClient, private router:Router) { }
+  constructor(private usuarioService: UsuarioService, private router:Router) { }
 
   ngOnInit() {
-    this.carregarUsuario();
+    this.carregarUsuario(); 
   }
 
   irParaEditarPerfil() {
@@ -100,22 +96,11 @@ export class MeuPerfilComponent  implements OnInit {
   }
 
   carregarUsuario() {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-      'Access-Control-Allow-Origin': '*'
-    })
-
-    const idUsuario = 1; // ou pegue esse ID de um AuthService, token JWT, localStorage etc.
-    this.http.get<UsuarioDTO>(`${this.baseUrl}/usuarios/${idUsuario}`, {headers})
+    this.usuarioService.obterUsuario(1)
       .subscribe({
         next: (res) => {
           this.usuarioData = res;
         }
       });
     }
-  
-  //getUsuarioLogado() {
-    //return this.http.get(`${this.baseUrl}/idUsuario`);
-
 }

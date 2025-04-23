@@ -14,7 +14,9 @@ import {
   trashOutline, trashSharp, 
   warningOutline, warningSharp,chevronForwardCircleOutline, chevronForwardOutline, 
   chevronBackOutline,
-  leafOutline
+  leafOutline,
+  peopleCircle,
+  exitOutline
 } from 'ionicons/icons';
 import { Router, NavigationEnd } from '@angular/router';
 import { LoginComponent } from './login/login.component';
@@ -89,7 +91,8 @@ export class AppComponent {
       paperPlaneSharp, 
       heartOutline, 
       chevronForwardCircleOutline, chevronForwardOutline,chevronBackOutline,
-      heartSharp, 
+      heartSharp,
+      exitOutline, 
       archiveOutline, 
       archiveSharp, 
       trashOutline, 
@@ -127,6 +130,11 @@ export class AppComponent {
         caption:"ATUALIZAÇÃO PLANTIO",
         link:'atualizacao',
         icon:'paper-plane-outline'
+      },
+      {
+        caption:"SAIR",
+        link:'',
+        icon:'exit-outline'
       },
       
       

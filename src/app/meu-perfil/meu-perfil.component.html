@@ -21,82 +21,99 @@
             <ion-col size="6">
               <ion-item>
                 <ion-label position="stacked">DOCUMENTO</ion-label>
-                <ion-text>{{ usuarioData?.documento }}</ion-text>
+                <ion-label position="stacked">{{ usuarioData?.documento }}</ion-label>
               </ion-item>
             </ion-col>
 
             <ion-col size="6">
               <ion-item>
                 <ion-label position="stacked">DATA DE CADASTRO</ion-label>
-                <ion-text>{{ usuarioData?.dataCriacao }}</ion-text>
+                <ion-label position="stacked">{{ usuarioData?.dataCriacao | date: 'dd/MM/yyyy' }}</ion-label>
               </ion-item>
             </ion-col>
 
             <ion-col size="12">
               <ion-item>
                 <ion-label position="stacked">NOME</ion-label>
-                <ion-text>{{ usuarioData?.nome }}</ion-text>
+                <ion-label position="stacked">{{ usuarioData?.nome }}</ion-label>
               </ion-item>
             </ion-col>
 
             <ion-col size="12">
               <ion-item>
                 <ion-label position="stacked">EMAIL</ion-label>
+                <ion-label position="stacked">{{ usuarioData?.email }}</ion-label>
               </ion-item>
             </ion-col>
           </ion-row>
 
           <!-- FAZENDAS INFO -->
+          <br>
           <ion-row>
             <ion-col size="12">
               <ion-title>MEUS LOTES</ion-title>
             </ion-col>
           </ion-row>
           <hr />
-          <ion-row *ngFor="let plantacao of usuarioData?.plantacao">
+          <ion-row style="margin-bottom: -40px;">
             <ion-col size="3">
               <ion-item>
                 <ion-label position="stacked">NOME</ion-label>
-                <ion-text>{{ plantacao.fazendaNome }}</ion-text>
               </ion-item>
             </ion-col>
             <ion-col size="3">
               <ion-item>
                 <ion-label position="stacked">ESPECIE</ion-label>
-                <ion-text>{{ plantacao.especieNome }}</ion-text>
               </ion-item>
             </ion-col>
             <ion-col size="2">
               <ion-item>
                 <ion-label position="stacked">AREA</ion-label>
-                <ion-text>{{ plantacao.areaPlantada }}</ion-text>
               </ion-item>
             </ion-col>
             <ion-col size="2">
               <ion-item>
                 <ion-label position="stacked">DATA CADASTRO</ion-label>
-                <ion-text>{{ plantacao.dataPlantio }}</ion-text>
               </ion-item>
             </ion-col>
             <ion-col size="2">
               <ion-item>
                 <ion-label position="stacked">STATUS</ion-label>
-                <ion-text>{{ plantacao.status }}</ion-text>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngFor="let plantacao of usuarioData?.plantacao">
+            <ion-col size="3">
+              <ion-item>
+                <ion-label position="stacked">{{ plantacao.fazendaNome }}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="3">
+              <ion-item>
+                <ion-label position="stacked">{{ plantacao.especieNome }}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="2">
+              <ion-item>
+                <ion-label position="stacked">{{ plantacao.areaPlantada }}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="2">
+              <ion-item>
+                <ion-label position="stacked">{{ plantacao.dataPlantio | date: 'dd/MM/yyyy' }}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="2">
+              <ion-item>
+                <ion-label position="stacked">{{ plantacao.status }}</ion-label>
               </ion-item>
             </ion-col>
           </ion-row>
 
           <ion-row>
             <!-- BOTÃO EDITAR -->
-            <ion-col
-              size="6"
-              size-md="4"
-              class="ion-text-center"
-              style="margin-top: 25px; margin-left: 10px"
-            >
-              <ion-button expand="block" (click)="irParaEditarPerfil()"
-                >EDITAR</ion-button
-              >
+            <ion-col size="6" size-md="4" class="ion-label-center" style="margin-top: 25px; margin-left: 10px">
+              <ion-button expand="block" (click)="irParaEditarPerfil()">EDITAR</ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>

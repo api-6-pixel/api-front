@@ -32,7 +32,7 @@ import {
 } from '@ionic/angular/standalone';
 
 import { ToastController } from '@ionic/angular';
-import { NgFor, NgIf } from '@angular/common';
+import { DatePipe, DecimalPipe, NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ScrollbarDirective } from '../scrollbar.directive';
 import { UsuarioService } from '../service/usuario.service';
@@ -78,17 +78,21 @@ import { UsuarioDTO } from '../interfaces/usuario-model';
     IonCard,
     IonText,
     IonCardContent,
+    DatePipe
+
   ],
 })
-export class EditarPerfilComponent  implements OnInit {
-  usuarioData!: UsuarioDTO
-  
+export class EditarPerfilComponent implements OnInit {
+  usuarioData!: UsuarioDTO;
+
   constructor(private usuarioService: UsuarioService, private toastController: ToastController) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.carregarUsuario()
+  }
 
   carregarUsuario() {
-    this.usuarioService.obterUsuario(1)
+    this.usuarioService.obterUsuario(5)
       .subscribe({
         next: (res) => {
           this.usuarioData = res;
@@ -96,20 +100,16 @@ export class EditarPerfilComponent  implements OnInit {
       });
   }
 
-  atualizarUsuario(){
-    const invalido = Object.keys(this.usuarioData).some((v,i) => !v)
-    if(invalido){
+  atualizarUsuario() {
+    const invalido = Object.keys(this.usuarioData).some((v, i) => !v)
+    if (invalido) {
       this.exibirToast("Preencha todos os campos obrigatórios!", "danger");
       return;
     }
-    this.usuarioService.atualizarUsuario(1)
+    this.usuarioService.atualizarUsuario(5, this.usuarioData)
       .subscribe({
-        next: () => {
-          this.exibirToast("Dados enviados com sucesso!", "success")
-        },
-        error: _ => {
-          this.exibirToast(`Erro ao enviar os dados!`, "danger");
-        }
+        next: () => this.exibirToast("Dados enviados com sucesso!", "success"),
+        error: _ => this.exibirToast(`Erro ao enviar os dados!`, "danger")
       });
   }
 
@@ -120,6 +120,6 @@ export class EditarPerfilComponent  implements OnInit {
       position: 'bottom',
       color: cor,
     })
-    .then( x => x.present());
+      .then(x => x.present());
   }
 }

@@ -15,11 +15,11 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) { }
 
-  obterUsuario(id:number){
-    return this.http.get<UsuarioDTO>(`${environment.api}/usuarios/${id}`, {headers: this.headers})
+  obterUsuario(id: number) {
+    return this.http.get<UsuarioDTO>(`${environment.api}/usuarios/${id}`, { headers: this.headers })
   }
 
-  atualizarUsuario(id:number){
-    return this.http.put<UsuarioDTO>(`${environment.api}/usuarios/${id}`, {headers: this.headers})
+  atualizarUsuario(id: number, body: UsuarioDTO) {
+    return this.http.put<UsuarioDTO>(`${environment.api}/usuarios/${id}`, body, { headers: this.headers })
   }
 }

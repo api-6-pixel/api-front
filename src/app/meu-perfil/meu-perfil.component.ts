@@ -30,7 +30,7 @@ import {
   IonCardContent,
   IonText
 } from '@ionic/angular/standalone';
-import { NgFor, NgIf } from '@angular/common';
+import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ScrollbarDirective } from '../scrollbar.directive';
 import { Router } from '@angular/router';
@@ -41,7 +41,7 @@ import { UsuarioService } from '../service/usuario.service';
   selector: 'app-meu-perfil',
   templateUrl: './meu-perfil.component.html',
   styleUrls: ['./meu-perfil.component.scss'],
-  
+
   imports: [
     IonApp,
     IonGrid,
@@ -73,6 +73,7 @@ import { UsuarioService } from '../service/usuario.service';
     IonButtons,
     IonToolbar,
     IonHeader,
+    DatePipe,
     NgFor,
     NgIf,
     IonCard,
@@ -82,13 +83,13 @@ import { UsuarioService } from '../service/usuario.service';
 })
 
 
-export class MeuPerfilComponent  implements OnInit {
+export class MeuPerfilComponent implements OnInit {
   usuarioData: UsuarioDTO | undefined;
 
-  constructor(private usuarioService: UsuarioService, private router:Router) { }
+  constructor(private usuarioService: UsuarioService, private router: Router) { }
 
   ngOnInit() {
-    this.carregarUsuario(); 
+    this.carregarUsuario();
   }
 
   irParaEditarPerfil() {
@@ -96,11 +97,12 @@ export class MeuPerfilComponent  implements OnInit {
   }
 
   carregarUsuario() {
-    this.usuarioService.obterUsuario(1)
+    this.usuarioService.obterUsuario(5)
       .subscribe({
         next: (res) => {
           this.usuarioData = res;
+          console.log(res)
         }
       });
-    }
+  }
 }

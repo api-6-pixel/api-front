@@ -14,8 +14,12 @@ import {
   trashOutline, trashSharp, 
   warningOutline, warningSharp,chevronForwardCircleOutline, chevronForwardOutline, 
   chevronBackOutline,
-  leafOutline
+  leafOutline,
+  peopleCircle,
+  exitOutline
 } from 'ionicons/icons';
+import { Router, NavigationEnd } from '@angular/router';
+import { LoginComponent } from './login/login.component';
 
 @Component({
   selector: 'app-root',
@@ -32,7 +36,9 @@ import {
     IonFooter,
     IonToolbar,
     IonSplitPane,
+    LoginComponent,
     IonMenu,
+    IonApp,
     IonList,
     IonCard,
     IonRow,
@@ -53,7 +59,10 @@ import {
     ToastModule,
   ],
 })
+
+
 export class AppComponent {
+  showLogin = false;
   menus: any[] = [];
   children: any[] = [];
   menuSelected = '';
@@ -73,7 +82,7 @@ export class AppComponent {
   //CHANGE PASSWORD
   isModalChangePassword = false;
 
-  constructor() {
+  constructor(private router:Router) {
     addIcons({
       mailOutline, 
       barChartOutline,
@@ -82,7 +91,8 @@ export class AppComponent {
       paperPlaneSharp, 
       heartOutline, 
       chevronForwardCircleOutline, chevronForwardOutline,chevronBackOutline,
-      heartSharp, 
+      heartSharp,
+      exitOutline, 
       archiveOutline, 
       archiveSharp, 
       trashOutline, 
@@ -91,7 +101,16 @@ export class AppComponent {
       warningSharp,
       leafOutline
     });
+
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        // Verifica se está na rota raiz '/'
+        this.showLogin = event.urlAfterRedirects === '/';
+      }
+    });
+    
   }
+  
   
 
   async ngOnInit() {
@@ -111,7 +130,13 @@ export class AppComponent {
         caption:"ATUALIZAÇÃO PLANTIO",
         link:'atualizacao',
         icon:'paper-plane-outline'
-      }
+      },
+      {
+        caption:"SAIR",
+        link:'',
+        icon:'exit-outline'
+      },
+      
       
     ];
   }
@@ -125,13 +150,6 @@ export class AppComponent {
       this.isOpenMenu = isOpen;
     }
   }
-
-
-
-
-
-
-  
 
 
 }

@@ -14,8 +14,13 @@ import {
   trashOutline, trashSharp, 
   warningOutline, warningSharp,chevronForwardCircleOutline, chevronForwardOutline, 
   chevronBackOutline,
-  leafOutline, personCircleOutline, personOutline, documentTextOutline
+  leafOutline, personCircleOutline, personOutline, documentTextOutline,
+  personAddOutline,
+  peopleCircle,
+  exitOutline
 } from 'ionicons/icons';
+import { Router, NavigationEnd } from '@angular/router';
+import { LoginComponent } from './login/login.component';
 
 @Component({
   selector: 'app-root',
@@ -32,7 +37,9 @@ import {
     IonFooter,
     IonToolbar,
     IonSplitPane,
+    LoginComponent,
     IonMenu,
+    IonApp,
     IonList,
     IonCard,
     IonRow,
@@ -53,7 +60,10 @@ import {
     ToastModule,
   ],
 })
+
+
 export class AppComponent {
+  showLogin = false;
   menus: any[] = [];
   children: any[] = [];
   menuSelected = '';
@@ -73,16 +83,18 @@ export class AppComponent {
   //CHANGE PASSWORD
   isModalChangePassword = false;
 
-  constructor() {
+  constructor(private router:Router) {
     addIcons({
       mailOutline, 
       barChartOutline,
+      personAddOutline,
       mailSharp, 
       paperPlaneOutline, 
       paperPlaneSharp, 
       heartOutline, 
       chevronForwardCircleOutline, chevronForwardOutline,chevronBackOutline,
-      heartSharp, 
+      heartSharp,
+      exitOutline, 
       archiveOutline, 
       archiveSharp, 
       trashOutline, 
@@ -94,7 +106,16 @@ export class AppComponent {
       personOutline,
       documentTextOutline
     });
+
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        // Verifica se está na rota raiz '/'
+        this.showLogin = event.urlAfterRedirects === '/';
+      }
+    });
+    
   }
+  
   
 
   async ngOnInit() {
@@ -118,7 +139,17 @@ export class AppComponent {
       {
         caption:"ATUALIZAÇÃO PLANTIO",
         link:'atualizacao',
+
         icon:'leaf-outline'
+      },
+      {
+        caption:"CADASTRO USUARIO",
+        link:'cadastrousuario',
+        icon: 'person-add-outline'
+      }
+        caption:"SAIR",
+        link:'',
+        icon:'exit-outline'
       },
     ];
   }
@@ -132,13 +163,6 @@ export class AppComponent {
       this.isOpenMenu = isOpen;
     }
   }
-
-
-
-
-
-
-  
 
 
 }

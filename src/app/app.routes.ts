@@ -27,5 +27,15 @@ export const routes: Routes = [
     path:'cadastro',
     loadComponent:() =>
       import('./cadastro-plantio/cadastro-plantio.component').then((m)=>m.CadastroPlantioComponent)
+  },
+  {
+    path:'meu-perfil',
+    loadComponent:() =>
+      import('./meu-perfil/meu-perfil.component').then((m)=>m.MeuPerfilComponent)
+  },
+  {
+    path:'editar-perfil',
+    loadComponent:() =>
+      import('./editar-perfil/editar-perfil.component').then((m)=>m.EditarPerfilComponent)
   }
 ];

@@ -15,6 +15,7 @@ import {
   warningOutline, warningSharp,chevronForwardCircleOutline, chevronForwardOutline, 
   chevronBackOutline,
   leafOutline,
+  personAddOutline,
   peopleCircle,
   exitOutline
 } from 'ionicons/icons';
@@ -86,6 +87,7 @@ export class AppComponent {
     addIcons({
       mailOutline, 
       barChartOutline,
+      personAddOutline,
       mailSharp, 
       paperPlaneOutline, 
       paperPlaneSharp, 
@@ -132,11 +134,14 @@ export class AppComponent {
         icon:'paper-plane-outline'
       },
       {
+        caption:"CADASTRO USUARIO",
+        link:'cadastrousuario',
+        icon: 'person-add-outline'
+      }
         caption:"SAIR",
         link:'',
         icon:'exit-outline'
       },
-      
       
     ];
   }

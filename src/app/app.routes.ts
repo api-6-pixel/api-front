@@ -33,5 +33,10 @@ export const routes: Routes = [
     path:'cadastro',
     loadComponent:() =>
       import('./cadastro-plantio/cadastro-plantio.component').then((m)=>m.CadastroPlantioComponent)
+  },
+  {
+    path:'cadastrousuario',
+    loadComponent:() =>
+      import('./cadastro-usuario/cadastro-usuario.component').then((m)=>m.CadastroUsuarioComponent)
   }
 ];

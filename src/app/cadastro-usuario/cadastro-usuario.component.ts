@@ -5,6 +5,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { ScrollbarDirective } from '../scrollbar.directive';
 import { ModalTermoUsuarioComponent } from '../modal-termo-usuario/modal-termo-usuario.component';
 import { HttpService } from '../service/http.service';
+import { ToastController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-cadastro-usuario',
@@ -25,12 +26,16 @@ export class CadastroUsuarioComponent implements OnInit {
   cpf:string="";
   email:string="";
   usuarioNome:string="";
-  constructor(private modalCtrl: ModalController,private http:HttpService) {}
+  funcao:string="";
+  abriu:boolean = false;
+  constructor(private modalCtrl: ModalController,private http:HttpService, public toastController: ToastController
+  ) {}
 
   ngOnInit() {}
 
   
   async openModal() {
+    this.abriu = true;
     const modal = await this.modalCtrl.create({
       component: ModalTermoUsuarioComponent,
     });
@@ -51,25 +56,62 @@ export class CadastroUsuarioComponent implements OnInit {
       }
     }
   }
-  
-
-
-  enviarDados(){
-    var termo = localStorage.getItem("termo");
-    if(termo == "recusou"){
-      return;
-    }
-    const body = {
-      nome:this.usuarioNome,
-      email:this.email,
-      senha:this.senha,
-      documento:this.cpf
-    }
-
-    this.http.post("usuarios", body)
-      .then((m) => console.log("ok"))
-        .catch((error: any) => console.log(error)) 
 
   
+  async exibirToast(mensagem: string, cor: string) {
+    const toast = await this.toastController.create({
+      message: mensagem,
+      duration: 3000,
+      position: 'bottom',
+      color: cor,
+    });
+    await toast.present();
   }
+
+
+  enviando = false; 
+
+
+  enviarDados() {
+  const termo = localStorage.getItem("termo");
+  if (termo === "recusou" || this.abriu === false || this.enviando) {
+    return;
+  }
+
+  if (!this.usuarioNome || !this.email || !this.senha || !this.cpf || !this.funcao) {
+    this.exibirToast("Por favor, preencha todos os campos obrigatórios.", "danger");
+    return;
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(this.email)) {
+    this.exibirToast("Por favor, insira um e-mail válido.", "warning");
+    return;
+  }
+
+  const body = {
+    nome: this.usuarioNome,
+    email: this.email,
+    senha: this.senha,
+    documento: this.cpf,
+    funcao: this.funcao
+  };
+
+  this.enviando = true; 
+
+  this.http.post("usuarios", body)
+    .then(() => {
+      this.exibirToast("Cadastro realizado com sucesso!", "success");
+      console.log("ok");
+    })
+    .catch((error: any) => {
+      console.log(error);
+      this.exibirToast("Erro ao cadastrar usuário. Tente novamente.", "danger");
+    })
+    .finally(() => {
+      this.enviando = false; 
+    });
+}
+
+
 }

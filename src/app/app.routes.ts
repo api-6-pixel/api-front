@@ -4,6 +4,12 @@ import { CadastroPlantioComponent } from './cadastro-plantio/cadastro-plantio.co
 export const routes: Routes = [
   {
     path: '',
+    loadComponent: () =>
+      import('./login/login.component').then((m) => m.LoginComponent),
+  },
+  {
+
+    path: 'home',
     redirectTo: 'folder/inbox',
     pathMatch: 'full',
   },

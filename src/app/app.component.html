@@ -12,10 +12,16 @@
 
         <ion-content>
           <ng-container *ngFor="let menu of menus">
-            <div class="menu-item" [routerLink]="['/' + menu.link]" routerLinkActive="selected">
-              <ion-icon [name]="menu.icon"></ion-icon>
-              <ion-label [ngClass]="isOpenMenu ? '' : 'close'">{{ menu.caption }}</ion-label>
-            </div>
+            <div
+            class="menu-item"
+            [routerLink]="menu.caption !== 'SAIR' ? ['/' + menu.link] : null"
+            routerLinkActive="selected"
+            (click)="menu.caption === 'SAIR' ? logout() : null"
+          >
+            <ion-icon [name]="menu.icon"></ion-icon>
+            <ion-label [ngClass]="isOpenMenu ? '' : 'close'">{{ menu.caption }}</ion-label>
+          </div>
+          
           </ng-container>
         </ion-content>
 

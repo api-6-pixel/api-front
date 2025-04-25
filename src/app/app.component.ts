@@ -146,7 +146,8 @@ export class AppComponent {
         caption:"CADASTRO USUARIO",
         link:'cadastrousuario',
         icon: 'person-add-outline'
-      }
+      },
+      {
         caption:"SAIR",
         link:'',
         icon:'exit-outline'
@@ -156,7 +157,23 @@ export class AppComponent {
   
 
 
- 
+  logout() {
+    // Limpa localStorage e sessionStorage
+    localStorage.clear();
+    sessionStorage.clear();
+  
+    // Limpa todos os cookies
+    const cookies = document.cookie.split(";");
+    for (let cookie of cookies) {
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    }
+  
+    // Redireciona para a tela de login (ajuste conforme sua rota de login)
+    this.router.navigate(['/']);
+  }
+  
 
   openMenu(isOpen: boolean) {
     if (!this.isOpenChildren) {

@@ -132,6 +132,7 @@ export class CadastroPlantioComponent implements OnInit {
   ngOnInit() { }
 
   async enviarDados() {
+    var usuarioCodigo = localStorage.getItem("idUser")
     if (
       !this.cadastroPlantio ||
       this.nomeEspecie.length == 0 ||
@@ -159,6 +160,7 @@ export class CadastroPlantioComponent implements OnInit {
       umidadeSolo: this.umidadeSolo,
       phSolo: this.phSolo,
       indiceUV: this.indiceUV,
+      idUsuario: Number(usuarioCodigo)
     };
 
     this.httpService

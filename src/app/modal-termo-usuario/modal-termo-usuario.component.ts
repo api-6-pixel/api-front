@@ -34,6 +34,7 @@ export class ModalTermoUsuarioComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+
     this.http.get('historico/ativo?termoItemCodigo=1').then((data: any) => {
       this.termoId = data.termoId;
       this.descricao = data.descricao;
@@ -70,16 +71,18 @@ export class ModalTermoUsuarioComponent implements OnInit {
     await toast.present();
   }
 
+  
   concordar() {
+   var codigoUsuario =  localStorage.getItem("idUser");
+
     const termosAceitos = {
-      usuarioCodigo: 1,  // Substitua por código do usuário, se necessário
+      usuarioCodigo: Number(codigoUsuario),  
       termoItemCodigo: this.termoId,
       respostas: this.respostas,  // Envia todas as respostas (true/false)
     };
 
     localStorage.setItem('termos', JSON.stringify(termosAceitos));
 
-    // Envia os dados para o backend
     this.http.post("historico/aceite", termosAceitos).then((response: any) => {
       this.exibirToast("Termos aceitos!", "success");
     }).catch((error: any) => {
@@ -94,24 +97,22 @@ export class ModalTermoUsuarioComponent implements OnInit {
 
   
   recusar() {
-    // Define explicitamente todos os valores como false
     const respostasRecusadas: { [codigo: number]: boolean } = { ...this.respostas };
   
     Object.keys(respostasRecusadas).forEach(codigo => {
-      // Converte a chave de string para número, pois `Object.keys` retorna um array de strings
       const codigoNumero = Number(codigo);
-      respostasRecusadas[codigoNumero] = false; // Marca todos como não aceitos
+      respostasRecusadas[codigoNumero] = false; 
     });
   
+    var codigoUsuario =  localStorage.getItem("idUser");
     const termosAceitos = {
-      usuarioCodigo: 1,
+      usuarioCodigo: Number(codigoUsuario),
       termoItemCodigo: this.termoId,
       respostas: respostasRecusadas,
     };
   
     localStorage.setItem('termos', JSON.stringify(termosAceitos));
   
-    // Envia os dados para o backend
     this.http.post("historico/aceite", termosAceitos).then((response: any) => {
       this.exibirToast("Termos recusados!", "success");
     }).catch((error: any) => {

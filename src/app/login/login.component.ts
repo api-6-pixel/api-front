@@ -73,6 +73,11 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {}
 
+
+  redirectToCadastroUser(){
+    this.router.navigate(['cadastrousuario'])
+  }
+
   async tryLogin() {
     const loading = await this.loadingCtrl.create({
       message: 'Aguarde...',
@@ -89,7 +94,9 @@ export class LoginComponent implements OnInit {
     this.http.post("auth/login", body)
       .then(async (response: any) => {
         await loading.dismiss();
+        localStorage.setItem("idUser", response.idUsuario);
         localStorage.setItem("token",response.token);
+       
         await this.router.navigate(['folder/inbox']);
       })
       .catch(async (error: any) => {

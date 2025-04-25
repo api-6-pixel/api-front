@@ -14,7 +14,7 @@ import {
   trashOutline, trashSharp, 
   warningOutline, warningSharp,chevronForwardCircleOutline, chevronForwardOutline, 
   chevronBackOutline,
-  leafOutline,
+  leafOutline, personCircleOutline, personOutline, documentTextOutline,
   personAddOutline,
   peopleCircle,
   exitOutline
@@ -101,7 +101,10 @@ export class AppComponent {
       trashSharp, 
       warningOutline, 
       warningSharp,
-      leafOutline
+      leafOutline,
+      personCircleOutline,
+      personOutline,
+      documentTextOutline
     });
 
     this.router.events.subscribe((event) => {
@@ -119,6 +122,11 @@ export class AppComponent {
   
     this.menus = [
       {
+        caption:"PERFIL",
+        link:'meu-perfil',
+        icon:'person-outline'
+      },
+      {
         caption: 'DASHBOARD',
         link: 'dashboard',
         icon: 'bar-chart-outline', 
@@ -126,12 +134,13 @@ export class AppComponent {
       {
         caption:"CADASTRO PLANTIO",
         link:'cadastro',
-        icon:'leaf-outline'
+        icon:'document-text-outline'
       },
       {
         caption:"ATUALIZAÇÃO PLANTIO",
         link:'atualizacao',
-        icon:'paper-plane-outline'
+
+        icon:'leaf-outline'
       },
       {
         caption:"CADASTRO USUARIO",
@@ -143,7 +152,6 @@ export class AppComponent {
         link:'',
         icon:'exit-outline'
       },
-      
     ];
   }
   

@@ -1,0 +1,53 @@
+<ion-content class="login-page">
+  <div class="container">
+    <div class="left-section">
+      <div class="overlay-text">
+        <a href="https://www.kersys.com.br/" target="_blank">
+          <img src="assets/Kersys.png" alt="Logo da Plantação" width="250px" style="margin-bottom:90px;" />
+        </a>
+        
+      </div>
+  
+    </div>
+    
+    <div class="right-section">
+      <ion-card>
+        <ion-card-title>Login</ion-card-title>
+        <ion-grid class="login-grid">
+          <ion-row>
+            <ion-col size="12">
+                <ion-input type="email" placeholder="Digite seu login" [(ngModel)]="email" required><ion-icon slot="start" name="person-outline"></ion-icon>
+                </ion-input>
+            </ion-col>
+        
+            <ion-col size="12">
+                <ion-input type="password" placeholder="Digite sua senha" [(ngModel)]="senha" required><ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+                </ion-input>
+            </ion-col>
+        
+            <ion-col size="12">
+              <ion-button expand="block" class="btn-primary" (click)="tryLogin()">Entrar</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <ion-col>
+          <ion-row>
+           
+            <ion-label class="link-button">
+              Não tem uma conta? Clique 
+              <ion-router-link 
+                [routerLink]="['/cadastrousuario']" 
+                (click)="setAcessoTrue()"
+              >
+                <strong>aqui</strong>
+              </ion-router-link> para criar
+            </ion-label>
+            
+          </ion-row>
+        </ion-col>
+        
+      </ion-card>
+    </div>
+  </div>
+</ion-content>

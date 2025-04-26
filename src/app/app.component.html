@@ -1,48 +1,48 @@
 <ion-content>
-<ion-split-pane id="menu" [ngClass]="isOpenMenu ? 'open' : ''" when="xs" contentId="main" >
-  <ion-menu  contentId="main" style="margin-top: 30px;">
-      <ion-label class="ion-align-items-center">
-        <h1 class="ion-text-center" style="font-size: 30px;">K</h1>
-      </ion-label>
-  
-  
-    <ion-content>
+  <ng-container *ngIf="showLogin; else mainApp">
+    <app-login></app-login>
+  </ng-container>
 
-      <ng-container *ngFor="let menu of menus;">
-        <div class="menu-item" [routerLink]="['/' + menu.link]" routerLinkActive="selected">
-          <ion-icon [name]="menu.icon"></ion-icon>
-          <ion-label [ngClass]="isOpenMenu ? '' : 'close'">{{ menu.caption }}</ion-label>
-        </div>
-      </ng-container>
-      
-     
-    </ion-content>
-  
-    <ion-row class="icon-container" style="margin-left: -15px;">
-   
-      
-        <ion-icon name="chevron-forward-outline" *ngIf="!isOpenMenu" (click)="openMenu(true)"></ion-icon>
-   
-    </ion-row>
-    <ion-row class="icon-container">
-      <ion-icon  
-        name="chevron-back-outline" 
-        *ngIf="isOpenMenu" 
-        [ngClass]="isOpenMenu ? 'close' : ''"
-        (click)="openMenu(false)">
-      </ion-icon>
-      
-    </ion-row>
-    
-  
-  </ion-menu>
-  
-  <div class="ion-page" id="main">
- 
+  <ng-template #mainApp>
+    <ion-split-pane  id="menu" [ngClass]="isOpenMenu ? 'open' : ''" when="xs" contentId="main">
+      <ion-menu contentId="main" style="margin-top: 30px;">
+        <ion-label class="ion-align-items-center">
+          <h1 class="ion-text-center" style="font-size: 30px;">K</h1>
+        </ion-label>
 
-    <ion-content id="menu-content">
-      <ion-router-outlet></ion-router-outlet>
-    </ion-content>
+        <ion-content>
+          <ng-container *ngFor="let menu of menus">
+            <div *ngIf="menus.length > 0"
+            class="menu-item"
+            [routerLink]="menu.caption !== 'SAIR' ? ['/' + menu.link] : null"
+            routerLinkActive="selected"
+            (click)="menu.caption === 'SAIR' ? logout() : null"
+          >
+            <ion-icon [name]="menu.icon"></ion-icon>
+            <ion-label [ngClass]="isOpenMenu ? '' : 'close'">{{ menu.caption }}</ion-label>
+          </div>
+          
+          </ng-container>
+        </ion-content>
 
-  </div>
-</ion-split-pane></ion-content>
+        <ion-row class="icon-container icon" style="margin-left: -15px;">
+          <ion-icon name="chevron-forward-outline" *ngIf="!isOpenMenu" (mouseenter)="openMenu(true)" (click)="openMenu(true)"></ion-icon>
+        </ion-row>
+
+        <ion-row class="icon-container icon">
+          <ion-icon  
+            name="chevron-back-outline" 
+            *ngIf="isOpenMenu" 
+            [ngClass]="isOpenMenu ? 'close' : ''"
+            (click)="openMenu(false)"
+            (mouseleave)="openMenu(false)">
+          </ion-icon>
+        </ion-row>
+      </ion-menu>
+
+      <div class="ion-page" id="main">
+        <ion-router-outlet></ion-router-outlet>
+      </div>
+    </ion-split-pane>
+  </ng-template>
+</ion-content>

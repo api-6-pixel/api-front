@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Termo de Consentimento LGPD</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="medium" (click)="close()">Fechar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" appScrollbar>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Uso de Dados Pessoais</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>
+        De acordo com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018), precisamos do seu consentimento para tratar seus dados pessoais.
+        Leia atentamente os itens abaixo e marque os que concorda.
+      </p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list *ngIf="itensObrigatorios?.length || itensOpcionais?.length">
+    <ion-list-header color="light">
+      <ion-label><strong>Consentimentos Obrigatórios</strong></ion-label>
+    </ion-list-header>
+
+    <ion-item *ngFor="let item of itensObrigatorios">
+      <ion-checkbox
+        slot="start"
+        [(ngModel)]="respostas[item.codigo]"
+        [checked]="aceito || respostas[item.codigo]"  
+      ></ion-checkbox>
+      <ion-label>
+        {{ item.descricao }} <strong class="text-danger">*</strong>
+      </ion-label>
+    </ion-item>
+
+    <ion-list-header color="light" class="ion-margin-top" *ngIf="itensOpcionais?.length">
+      <ion-label><strong>Consentimentos Opcionais</strong></ion-label>
+    </ion-list-header>
+
+    <ion-item *ngFor="let item of itensOpcionais">
+      <ion-checkbox
+        slot="start"
+        [(ngModel)]="respostas[item.codigo]"
+        [checked]="aceito || respostas[item.codigo]"  
+      ></ion-checkbox>
+      <ion-label>
+        {{ item.descricao }}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-note color="medium" class="ion-padding">
+    Você poderá revogar seu consentimento a qualquer momento por meio das configurações de privacidade ou contato com o suporte.
+  </ion-note>
+
+  <ion-row class="ion-padding-top">
+    <ion-col size="6">
+      <ion-button expand="block" color="danger" (click)="recusar()">Recusar</ion-button>
+    </ion-col>
+    <ion-col size="6">
+      <ion-button expand="block" color="primary" [disabled]="!podeConcordar()" (click)="concordar()">Concordar</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-content>

@@ -4,6 +4,12 @@ import { CadastroPlantioComponent } from './cadastro-plantio/cadastro-plantio.co
 export const routes: Routes = [
   {
     path: '',
+    loadComponent: () =>
+      import('./login/login.component').then((m) => m.LoginComponent),
+  },
+  {
+
+    path: 'home',
     redirectTo: 'folder/inbox',
     pathMatch: 'full',
   },
@@ -37,5 +43,10 @@ export const routes: Routes = [
     path:'editar-perfil',
     loadComponent:() =>
       import('./editar-perfil/editar-perfil.component').then((m)=>m.EditarPerfilComponent)
+  },
+  {
+    path:'cadastrousuario',
+    loadComponent:() =>
+      import('./cadastro-usuario/cadastro-usuario.component').then((m)=>m.CadastroUsuarioComponent)
   }
 ];

@@ -37,6 +37,7 @@ import { FormsModule } from '@angular/forms';
 import { ScrollbarDirective } from '../scrollbar.directive';
 import { UsuarioService } from '../service/usuario.service';
 import { UsuarioDTO } from '../interfaces/usuario-model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-editar-perfil',
@@ -85,14 +86,15 @@ import { UsuarioDTO } from '../interfaces/usuario-model';
 export class EditarPerfilComponent implements OnInit {
   usuarioData!: UsuarioDTO;
 
-  constructor(private usuarioService: UsuarioService, private toastController: ToastController) { }
+  constructor(private router: Router, private usuarioService: UsuarioService, private toastController: ToastController) { }
 
   ngOnInit() {
     this.carregarUsuario()
   }
 
   carregarUsuario() {
-    this.usuarioService.obterUsuario(5)
+    var codigoUsuario = localStorage.getItem("idUser")
+    this.usuarioService.obterUsuario(Number(codigoUsuario))
       .subscribe({
         next: (res) => {
           this.usuarioData = res;
@@ -106,11 +108,15 @@ export class EditarPerfilComponent implements OnInit {
       this.exibirToast("Preencha todos os campos obrigatórios!", "danger");
       return;
     }
-    this.usuarioService.atualizarUsuario(5, this.usuarioData)
-      .subscribe({
-        next: () => this.exibirToast("Dados enviados com sucesso!", "success"),
-        error: _ => this.exibirToast(`Erro ao enviar os dados!`, "danger")
-      });
+    var codigoUsuario = localStorage.getItem("idUser");
+    if (window.confirm("Você quer mesmo salvar os dados? Você sera redirecionado para a tela de login em caso de sucesso.")) {
+      this.usuarioService.atualizarUsuario(Number(codigoUsuario), this.usuarioData)
+        .subscribe({
+          next: () => this.router.navigate(['/']),
+          error: _ => this.router.navigate(['/'])
+
+        });
+    }
   }
 
   exibirToast(mensagem: string, cor: string) {

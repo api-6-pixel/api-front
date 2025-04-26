@@ -84,7 +84,7 @@ export class CadastroUsuarioComponent implements OnInit {
     return;
   }
 
-  if (!this.usuarioNome || !this.email || !this.senha || !this.cpf || !this.funcao) {
+  if (!this.usuarioNome || !this.email || !this.senha || !this.cpf) {
     this.exibirToast("Por favor, preencha todos os campos obrigatórios.", "danger");
     return;
   }

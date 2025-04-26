@@ -92,7 +92,8 @@ export class EditarPerfilComponent implements OnInit {
   }
 
   carregarUsuario() {
-    this.usuarioService.obterUsuario(5)
+    var codigoUsuario = localStorage.getItem("idUser")
+    this.usuarioService.obterUsuario(Number(codigoUsuario))
       .subscribe({
         next: (res) => {
           this.usuarioData = res;
@@ -106,7 +107,9 @@ export class EditarPerfilComponent implements OnInit {
       this.exibirToast("Preencha todos os campos obrigatórios!", "danger");
       return;
     }
-    this.usuarioService.atualizarUsuario(5, this.usuarioData)
+    var codigoUsuario = localStorage.getItem("idUser");
+    this.usuarioService.atualizarUsuario(Number(codigoUsuario), this.usuarioData)
+
       .subscribe({
         next: () => this.exibirToast("Dados enviados com sucesso!", "success"),
         error: _ => this.exibirToast(`Erro ao enviar os dados!`, "danger")

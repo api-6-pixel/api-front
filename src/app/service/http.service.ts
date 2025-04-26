@@ -11,7 +11,7 @@ const apiIa = environment.apiIa;
 export class HttpService {
   constructor(private http: HttpClient) {}
 
-  private getHeaders(): HttpHeaders {
+  public getHeaders(): HttpHeaders {
     const token = localStorage.getItem("token") ?? "";
 
     let headers = new HttpHeaders({

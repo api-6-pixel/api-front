@@ -36,6 +36,7 @@ import { ScrollbarDirective } from '../scrollbar.directive';
 import { Router } from '@angular/router';
 import { UsuarioDTO } from 'src/app/interfaces/usuario-model';
 import { UsuarioService } from '../service/usuario.service';
+import { HttpService } from '../service/http.service';
 
 @Component({
   selector: 'app-meu-perfil',
@@ -84,9 +85,17 @@ import { UsuarioService } from '../service/usuario.service';
 
 
 export class MeuPerfilComponent implements OnInit {
-  usuarioData: UsuarioDTO | undefined;
+  usuarioData: UsuarioDTO = {
+    id:0,
+    documento: '',
+    dataCriacao: '',
+    nome: '',
+    email: '',
+    plantacao: [] as any[]
+  };
+  
 
-  constructor(private usuarioService: UsuarioService, private router: Router) { }
+  constructor(private usuarioService: UsuarioService,private http:HttpService, private router: Router) { }
 
   ngOnInit() {
     this.carregarUsuario();
@@ -97,12 +106,40 @@ export class MeuPerfilComponent implements OnInit {
   }
 
   carregarUsuario() {
-    this.usuarioService.obterUsuario(5)
+    var usuarioCodigo = localStorage.getItem('idUser')
+    this.usuarioService.obterUsuario(Number(usuarioCodigo))
       .subscribe({
         next: (res) => {
           this.usuarioData = res;
           console.log(res)
         }
       });
+  }
+
+  
+  confirmarExclusao() {
+    const confirm = window.confirm('Tem certeza que deseja excluir sua conta? Esta ação é irreversível.');
+    if (confirm) {
+      this.excluirConta();
+    }
+  }
+  
+  excluirConta() {
+    
+    var usuarioCodigo = localStorage.getItem('idUser')
+    this.usuarioService.deletarUsuario
+    (Number(usuarioCodigo))
+    .subscribe({
+      next: (res) => {
+        this.usuarioData = res;
+        console.log(res)
+      }
+    });
+  }
+  
+  notificarUsuarios() {
+    var usuarioCodigo = localStorage.getItem('idUser')
+    const body = {}
+    this.http.post("notificacoes",body)
   }
 }

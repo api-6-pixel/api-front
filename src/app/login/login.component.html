@@ -33,9 +33,15 @@
 
         <ion-col>
           <ion-row>
+           
             <ion-label class="link-button">
               Não tem uma conta? Clique 
-              <ion-router-link [routerLink]="['/cadastrousuario']" ><strong>aqui</strong></ion-router-link> para criar
+              <ion-router-link 
+                [routerLink]="['/cadastrousuario']" 
+                (click)="setAcessoTrue()"
+              >
+                <strong>aqui</strong>
+              </ion-router-link> para criar
             </ion-label>
             
           </ion-row>

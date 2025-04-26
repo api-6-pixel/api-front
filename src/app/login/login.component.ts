@@ -78,6 +78,11 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['cadastrousuario'])
   }
 
+  setAcessoTrue() {
+    localStorage.setItem("acesso", "true");
+  }
+  
+
   async tryLogin() {
     const loading = await this.loadingCtrl.create({
       message: 'Aguarde...',

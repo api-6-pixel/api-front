@@ -120,6 +120,14 @@ export class AppComponent {
 
   async ngOnInit() {
   
+    var acessoUsuario =  localStorage.getItem("acesso");
+    if(acessoUsuario == "true"){
+      this.menus = [ {
+        caption:"SAIR",
+        link:'',
+        icon:'exit-outline'
+      },]
+    }else{
     this.menus = [
       {
         caption:"PERFIL",
@@ -153,6 +161,7 @@ export class AppComponent {
         icon:'exit-outline'
       },
     ];
+    }
   }
   
 

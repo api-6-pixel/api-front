@@ -4,7 +4,7 @@
   </ng-container>
 
   <ng-template #mainApp>
-    <ion-split-pane id="menu" [ngClass]="isOpenMenu ? 'open' : ''" when="xs" contentId="main">
+    <ion-split-pane  id="menu" [ngClass]="isOpenMenu ? 'open' : ''" when="xs" contentId="main">
       <ion-menu contentId="main" style="margin-top: 30px;">
         <ion-label class="ion-align-items-center">
           <h1 class="ion-text-center" style="font-size: 30px;">K</h1>
@@ -12,7 +12,7 @@
 
         <ion-content>
           <ng-container *ngFor="let menu of menus">
-            <div
+            <div *ngIf="menus.length > 0"
             class="menu-item"
             [routerLink]="menu.caption !== 'SAIR' ? ['/' + menu.link] : null"
             routerLinkActive="selected"

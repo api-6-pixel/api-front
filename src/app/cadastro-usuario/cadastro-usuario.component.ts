@@ -69,7 +69,13 @@ export class CadastroUsuarioComponent implements OnInit {
   }
 
 
+
+
+  
+  
   enviando = false; 
+
+
 
 
   enviarDados() {
@@ -94,7 +100,7 @@ export class CadastroUsuarioComponent implements OnInit {
     email: this.email,
     senha: this.senha,
     documento: this.cpf,
-    funcao: this.funcao
+    funcao: "USUARIO"
   };
 
   this.enviando = true; 

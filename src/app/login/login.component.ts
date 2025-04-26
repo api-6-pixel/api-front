@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { IonApp, IonTitle, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink, IonHeader, IonToolbar, IonButton, IonButtons, IonCard, IonCol, IonFooter, IonInput, IonModal, IonPopover, IonRow, IonThumbnail,  IonGrid, IonToggle,IonCardTitle, LoadingController, ToastController } from '@ionic/angular/standalone';
 import { ToastModule } from 'primeng/toast';
-import { 
+import {
   lockClosedOutline,
   personOutline
 } from 'ionicons/icons';
@@ -71,7 +71,10 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    localStorage.removeItem("token")
+    localStorage.removeItem("idUser")
+  }
 
 
   redirectToCadastroUser() {
@@ -92,7 +95,7 @@ export class LoginComponent implements OnInit {
       spinner: 'crescent'
     });
 
-    await loading.present(); 
+    await loading.present();
 
     const body = {
       email: this.email,
@@ -104,7 +107,7 @@ export class LoginComponent implements OnInit {
         await loading.dismiss();
         localStorage.setItem("idUser", response.idUsuario);
         localStorage.setItem("token",response.token);
-       
+
         await this.router.navigate(['folder/inbox']);
       })
       .catch(async (error: any) => {

@@ -112,11 +112,9 @@ export class EditarPerfilComponent implements OnInit {
     if (window.confirm("Você quer mesmo salvar os dados? Você sera redirecionado para a tela de login em caso de sucesso.")) {
       this.usuarioService.atualizarUsuario(Number(codigoUsuario), this.usuarioData)
         .subscribe({
-          next: () => {
-            this.exibirToast("Dados enviados com sucesso!", "success")
-            this.router.navigate(['/'])
-          },
-          error: _ => this.exibirToast(`Erro ao enviar os dados!`, "danger")
+          next: () => this.router.navigate(['/']),
+          error: _ => this.router.navigate(['/'])
+
         });
     }
   }

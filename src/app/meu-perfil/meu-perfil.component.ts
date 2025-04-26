@@ -125,16 +125,15 @@ export class MeuPerfilComponent implements OnInit {
   }
   
   excluirConta() {
-    
-    var usuarioCodigo = localStorage.getItem('idUser')
-    this.usuarioService.deletarUsuario
-    (Number(usuarioCodigo))
-    .subscribe({
-      next: (res) => {
-        this.usuarioData = res;
-        console.log(res)
-      }
-    });
+    if (window.confirm("Você quer mesmo deletar sua conta?")) {
+      var usuarioCodigo = localStorage.getItem('idUser')
+      this.usuarioService.deletarUsuario(Number(usuarioCodigo))
+      .subscribe({
+        next: (res) => {
+          this.router.navigate(['/'])
+        }
+      });
+    }
   }
   
   notificarUsuarios() {

@@ -8,7 +8,8 @@
 
     <ion-card-content>
       <ion-list [inset]="true">
-        <ion-grid>
+
+
           <!-- MEU PERFIL -->
           <ion-row>
             <ion-col size="12">
@@ -17,72 +18,46 @@
           </ion-row>
           <hr />
 
+    
           <ion-row>
             <ion-col size="6">
-              <ion-item lines="none">
+              <ion-item>
                 <ion-label position="stacked">DOCUMENTO</ion-label>
-                <ion-label>{{ usuarioData?.documento }}</ion-label>
+                <ion-input [disabled]="true" placeholder="Digite aqui" [(ngModel)]="usuarioData.documento"></ion-input>
               </ion-item>
             </ion-col>
 
             <ion-col size="6">
-              <ion-item lines="none">
+              <ion-item>
                 <ion-label position="stacked">DATA DE CADASTRO</ion-label>
-                <ion-label>{{ usuarioData?.dataCriacao | date: 'dd/MM/yyyy' }}</ion-label>
+                <ion-label position="stacked">{{ usuarioData?.dataCriacao | date: 'dd/MM/yyyy' }}</ion-label>
               </ion-item>
             </ion-col>
 
             <ion-col size="12">
-              <ion-item lines="none">
+              <ion-item>
                 <ion-label position="stacked">NOME</ion-label>
-                <ion-label>{{ usuarioData?.nome }}</ion-label>
+                <ion-input [disabled]="true" placeholder="Digite aqui" [(ngModel)]="usuarioData.nome"></ion-input>
               </ion-item>
             </ion-col>
 
             <ion-col size="12">
-              <ion-item lines="none">
+              <ion-item>
                 <ion-label position="stacked">EMAIL</ion-label>
-                <ion-label>{{ usuarioData?.email }}</ion-label>
+                <ion-input [disabled]="true" placeholder="Digite aqui" [(ngModel)]="usuarioData.email"></ion-input>
               </ion-item>
             </ion-col>
           </ion-row>
 
-          <ion-row class="ion-align-items-center ion-justify-content-between" style="flex-wrap: wrap;">
-            <!-- DOCUMENTO -->
-            <ion-col size="6" size-md="3">
-              <ion-item>
-                <ion-label position="stacked">DOCUMENTO</ion-label>
-                <ion-input placeholder="Digite aqui" [(ngModel)]="usuarioData.documento"></ion-input>
-              </ion-item>
-            </ion-col>
-
-            <!-- NOME -->
-            <ion-col size="6" size-md="3">
-              <ion-item>
-                <ion-label position="stacked">NOME</ion-label>
-                <ion-input placeholder="Digite aqui" [(ngModel)]="usuarioData.nome"></ion-input>
-              </ion-item>
-            </ion-col>
-
-            <!-- EMAIL -->
-            <ion-col size="6" size-md="3">
-              <ion-item>
-                <ion-label position="stacked">EMAIL</ion-label>
-                <ion-input placeholder="Digite aqui" [(ngModel)]="usuarioData.email"></ion-input>
-              </ion-item>
-            </ion-col>
-
-            <!-- BOTÃO NOTIFICAR -->
-            <ion-col size="6" size-md="3">
-              <ion-button color="warning" expand="block" (click)="notificarUsuarios()">Notificar Vazamento</ion-button>
-            </ion-col>
-
-            <!-- BOTÃO EXCLUIR -->
-            <ion-col size="6" size-md="3">
-              <ion-button color="danger" expand="block" (click)="confirmarExclusao()">Excluir Minha Conta</ion-button>
+          <ion-row class="ion-justify-content-end">
+            <ion-col size="2">
+              <ion-button expand="block" color="danger" (click)="excluirConta()">
+                Excluir minha conta
+              </ion-button>
             </ion-col>
           </ion-row>
 
+          <ion-grid [fixed]="true">
           <!-- FAZENDAS INFO -->
           <br />
           <ion-row>
@@ -91,7 +66,7 @@
             </ion-col>
           </ion-row>
           <hr />
-          <ion-row style="margin-bottom: -40px;">
+          <ion-row>
             <ion-col size="3">
               <ion-item lines="none">
                 <ion-label position="stacked">NOME</ion-label>
@@ -146,12 +121,14 @@
             </ion-col>
           </ion-row>
 
-          <ion-row>
-            <!-- BOTÃO EDITAR -->
-            <ion-col size="6" size-md="4" class="ion-label-center" style="margin-top: 25px;">
+          <!-- BOTÃO EDITAR -->
+          <ion-row class="ion-justify-content-end" style="margin-top: 16px;">
+            <ion-col size="4" size-md="2">
               <ion-button expand="block" (click)="irParaEditarPerfil()">EDITAR</ion-button>
             </ion-col>
           </ion-row>
+
+
         </ion-grid>
       </ion-list>
     </ion-card-content>

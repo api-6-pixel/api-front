@@ -1,7 +1,7 @@
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd, RouterLink, RouterLinkActive } from '@angular/router';
 // Importações do PrimeNG
 import { ToastModule } from 'primeng/toast';
 import { IonApp, IonTitle, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink, IonHeader, IonToolbar, IonButton, IonButtons, IonCard, IonCol, IonFooter, IonInput, IonModal, IonPopover, IonRow, IonThumbnail, IonToggle } from '@ionic/angular/standalone';
@@ -12,14 +12,13 @@ import {
   heartOutline, heartSharp, 
   archiveOutline, archiveSharp, 
   trashOutline, trashSharp, 
-  warningOutline, warningSharp,chevronForwardCircleOutline, chevronForwardOutline, 
+  warningOutline, warningSharp, chevronForwardCircleOutline, chevronForwardOutline, 
   chevronBackOutline,
   leafOutline, personCircleOutline, personOutline, documentTextOutline,
   personAddOutline,
   peopleCircle,
   exitOutline
 } from 'ionicons/icons';
-import { Router, NavigationEnd } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 
 @Component({
@@ -60,10 +59,9 @@ import { LoginComponent } from './login/login.component';
     ToastModule,
   ],
 })
-
-
 export class AppComponent {
   showLogin = false;
+  showMenu = false;
   menus: any[] = [];
   children: any[] = [];
   menuSelected = '';
@@ -83,7 +81,7 @@ export class AppComponent {
   //CHANGE PASSWORD
   isModalChangePassword = false;
 
-  constructor(private router:Router) {
+  constructor(private router: Router, private route: ActivatedRoute) {
     addIcons({
       mailOutline, 
       barChartOutline,
@@ -92,7 +90,7 @@ export class AppComponent {
       paperPlaneOutline, 
       paperPlaneSharp, 
       heartOutline, 
-      chevronForwardCircleOutline, chevronForwardOutline,chevronBackOutline,
+      chevronForwardCircleOutline, chevronForwardOutline, chevronBackOutline,
       heartSharp,
       exitOutline, 
       archiveOutline, 
@@ -107,88 +105,100 @@ export class AppComponent {
       documentTextOutline
     });
 
+    // Sempre que houver navegação, verificar se é para a página de login ou outra
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        // Verifica se está na rota raiz '/'
         this.showLogin = event.urlAfterRedirects === '/';
+
+        // Agora também vamos verificar o parâmetro para controlar o menu
+        this.checkMenu();
       }
     });
-    
   }
-  
-  
 
   async ngOnInit() {
-  
-    var acessoUsuario =  localStorage.getItem("acesso");
-    if(acessoUsuario == "true"){
-      this.menus = [ {
-        caption:"SAIR",
-        link:'',
-        icon:'exit-outline'
-      },]
-    }else{
-    this.menus = [
-      {
-        caption:"PERFIL",
-        link:'meu-perfil',
-        icon:'person-outline'
-      },
-      {
-        caption: 'DASHBOARD',
-        link: 'dashboard',
-        icon: 'bar-chart-outline', 
-      },
-      {
-        caption:"CADASTRO PLANTIO",
-        link:'cadastro',
-        icon:'document-text-outline'
-      },
-      {
-        caption:"ATUALIZAÇÃO PLANTIO",
-        link:'atualizacao',
+    this.initializeMenus();
+  }
 
-        icon:'leaf-outline'
-      },
-      {
-        caption:"CADASTRO USUARIO",
-        link:'cadastrousuario',
-        icon: 'person-add-outline'
-      },
-      {
-        caption:"SAIR",
-        link:'',
-        icon:'exit-outline'
-      },
-    ];
+  checkMenu() {
+    this.route.queryParams.subscribe(params => {
+      const acessoUsuario = params['showMenu'];
+
+      if (acessoUsuario === 'true') {
+        this.showMenu = true;
+        this.menus = [{
+          caption: "SAIR",
+          link: '',
+          icon: 'exit-outline'
+        }];
+      } else {
+        this.showMenu = false;
+        this.initializeMenus();
+      }
+    });
+  }
+
+  initializeMenus() {
+    const acessoUsuario = localStorage.getItem('acesso');
+    if (acessoUsuario === 'true') {
+      this.menus = [{
+        caption: "SAIR",
+        link: '',
+        icon: 'exit-outline'
+      }];
+    } else {
+      this.menus = [
+        {
+          caption: "PERFIL",
+          link: 'meu-perfil',
+          icon: 'person-outline'
+        },
+        {
+          caption: 'DASHBOARD',
+          link: 'dashboard',
+          icon: 'bar-chart-outline',
+        },
+        {
+          caption: "CADASTRO PLANTIO",
+          link: 'cadastro',
+          icon: 'document-text-outline'
+        },
+        {
+          caption: "ATUALIZAÇÃO PLANTIO",
+          link: 'atualizacao',
+          icon: 'leaf-outline'
+        },
+        {
+          caption: "CADASTRO USUARIO",
+          link: 'cadastrousuario',
+          icon: 'person-add-outline'
+        },
+        {
+          caption: "SAIR",
+          link: '',
+          icon: 'exit-outline'
+        },
+      ];
     }
   }
-  
-
 
   logout() {
-    // Limpa localStorage e sessionStorage
     localStorage.clear();
     sessionStorage.clear();
-  
-    // Limpa todos os cookies
+
     const cookies = document.cookie.split(";");
     for (let cookie of cookies) {
       const eqPos = cookie.indexOf("=");
       const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
       document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
     }
-  
-    // Redireciona para a tela de login (ajuste conforme sua rota de login)
+
     this.router.navigate(['/']);
   }
-  
 
   openMenu(isOpen: boolean) {
     if (!this.isOpenChildren) {
       this.isOpenMenu = isOpen;
     }
   }
-
-
 }

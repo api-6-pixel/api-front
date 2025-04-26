@@ -74,9 +74,12 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
 
 
-  redirectToCadastroUser(){
-    this.router.navigate(['cadastrousuario'])
+  redirectToCadastroUser() {
+    this.router.navigate(['cadastrousuario'], {
+      queryParams: { showMenu: 'true' }
+    });
   }
+  
 
   setAcessoTrue() {
     localStorage.setItem("acesso", "true");

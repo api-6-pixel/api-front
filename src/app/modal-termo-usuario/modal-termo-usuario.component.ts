@@ -71,29 +71,23 @@ export class ModalTermoUsuarioComponent implements OnInit {
     await toast.present();
   }
 
-  
   concordar() {
-   var codigoUsuario =  localStorage.getItem("idUser");
-
+    var codigoUsuario = localStorage.getItem("idUser");
+  
     const termosAceitos = {
-      usuarioCodigo: Number(codigoUsuario),  
+      usuarioCodigo: Number(codigoUsuario),
       termoItemCodigo: this.termoId,
-      respostas: this.respostas,  // Envia todas as respostas (true/false)
+      respostas: this.respostas,
     };
-
+  
     localStorage.setItem('termos', JSON.stringify(termosAceitos));
-
-    this.http.post("historico/aceite", termosAceitos).then((response: any) => {
-      this.exibirToast("Termos aceitos!", "success");
-    }).catch((error: any) => {
-      this.exibirToast("Erro ao aceitar os termos!", "danger");
-    });
-
+  
     this.modalCtrl.dismiss({
       accepted: true,
       termos: termosAceitos,
     });
   }
+  
 
   
   recusar() {
@@ -113,11 +107,6 @@ export class ModalTermoUsuarioComponent implements OnInit {
   
     localStorage.setItem('termos', JSON.stringify(termosAceitos));
   
-    this.http.post("historico/aceite", termosAceitos).then((response: any) => {
-      this.exibirToast("Termos recusados!", "success");
-    }).catch((error: any) => {
-      this.exibirToast("Erro ao recusar os termos!", "danger");
-    });
   
 
     

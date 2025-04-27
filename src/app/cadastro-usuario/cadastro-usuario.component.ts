@@ -79,45 +79,64 @@ export class CadastroUsuarioComponent implements OnInit {
 
 
   enviarDados() {
-  const termo = localStorage.getItem("termo");
-  if (termo === "recusou" || this.abriu === false || this.enviando) {
-    return;
+    const termo = localStorage.getItem("termo");
+    if (termo === "recusou" || this.abriu === false || this.enviando) {
+      return;
+    }
+  
+    if (!this.usuarioNome || !this.email || !this.senha || !this.cpf) {
+      this.exibirToast("Por favor, preencha todos os campos obrigatórios.", "danger");
+      return;
+    }
+  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.email)) {
+      this.exibirToast("Por favor, insira um e-mail válido.", "warning");
+      return;
+    }
+  
+    const body = {
+      nome: this.usuarioNome,
+      email: this.email,
+      senha: this.senha,
+      documento: this.cpf,
+      funcao: "USUARIO"
+    };
+  
+    this.enviando = true;
+  
+    this.http.post("usuarios", body)
+      .then((response: any) => {
+        const idUsuario = response.id; 
+  
+        this.exibirToast("Cadastro realizado com sucesso!", "success");
+        console.log("Usuário cadastrado com ID:", idUsuario);
+  
+        const termos = localStorage.getItem("termos");
+        if (termos) {
+          const termosAceitos = JSON.parse(termos);
+  
+          termosAceitos.usuarioCodigo = idUsuario;
+  
+          this.http.post("historico/aceite", termosAceitos)
+            .then(() => {
+              this.exibirToast("Termos aceitos!", "success");
+            })
+            .catch((error: any) => {
+              console.log(error);
+            });
+        } else {
+          console.log("Nenhum termo encontrado no localStorage");
+        }
+      })
+      .catch((error: any) => {
+        console.log(error);
+      })
+      .finally(() => {
+        this.enviando = false;
+      });
   }
-
-  if (!this.usuarioNome || !this.email || !this.senha || !this.cpf) {
-    this.exibirToast("Por favor, preencha todos os campos obrigatórios.", "danger");
-    return;
-  }
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(this.email)) {
-    this.exibirToast("Por favor, insira um e-mail válido.", "warning");
-    return;
-  }
-
-  const body = {
-    nome: this.usuarioNome,
-    email: this.email,
-    senha: this.senha,
-    documento: this.cpf,
-    funcao: "USUARIO"
-  };
-
-  this.enviando = true; 
-
-  this.http.post("usuarios", body)
-    .then(() => {
-      this.exibirToast("Cadastro realizado com sucesso!", "success");
-      console.log("ok");
-    })
-    .catch((error: any) => {
-      console.log(error);
-      this.exibirToast("Erro ao cadastrar usuário. Tente novamente.", "danger");
-    })
-    .finally(() => {
-      this.enviando = false; 
-    });
-}
+  
 
 
 }

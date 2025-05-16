@@ -85,11 +85,12 @@ import { HttpService } from '../service/http.service';
 export class DashboardComponent implements OnInit {
   constructor(public router: Router, public http: HttpService) { }
   lotes: any[] = [];
+  usuarios:any[] = []
   exibeDashBoard: boolean = false;
   dataSelecionado: any;
   loteSelecionado: any;
   tetoGastos: any;
-
+  exibeFiltroUsuario:any;
   private labelsMap: Record<number, string> = {
     1: 'Baixo',
     2: 'Médio',
@@ -183,6 +184,19 @@ export class DashboardComponent implements OnInit {
 
 
   ngOnInit() {
+  
+  this.usuarios = [
+      { id:1,nome: 'usuario1' },
+      { id:2,nome: 'usuario2' },
+      { id:3,nome: 'usuario3' }
+    ];
+
+    const funcao = localStorage.getItem("funcao")
+    if(funcao === "Administrador"){
+      this.exibeFiltroUsuario = true
+    }
+
+
     const loteString = sessionStorage.getItem("lotes");
 
     if (loteString) {

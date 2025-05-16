@@ -107,11 +107,11 @@ export class LoginComponent implements OnInit {
         await loading.dismiss();
         localStorage.setItem("idUser", response.idUsuario);
         localStorage.setItem("token",response.token);
-
+        localStorage.setItem("funcao","Administrador")
         await this.router.navigate(['folder/inbox']);
       })
       .catch(async (error: any) => {
-        await loading.dismiss(); // esconde o loading mesmo com erro
+        await loading.dismiss();
         const toast = await this.toastCtrl.create({
           message: 'E-mail ou senha incorretos!',
           duration: 2000,

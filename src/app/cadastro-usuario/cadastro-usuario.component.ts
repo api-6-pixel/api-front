@@ -26,8 +26,10 @@ export class CadastroUsuarioComponent implements OnInit {
   cpf:string="";
   email:string="";
   usuarioNome:string="";
-  funcao:string="";
+  funcaoSelecionada:string="";
   abriu:boolean = false;
+  check:boolean = false;
+
   constructor(private modalCtrl: ModalController,private http:HttpService, public toastController: ToastController
   ) {}
 
@@ -47,9 +49,12 @@ export class CadastroUsuarioComponent implements OnInit {
     if (data) {
   
       if (data.accepted === false) {
+        this.check = true;
         localStorage.setItem("termo","recusou")
         console.log('Usuário recusou os termos');
       } else if (data.accepted === true) {
+        this.check = true;
+
         console.log('Usuário aceitou os termos');
       } else {
         console.log('Modal fechado sem ação definida');
@@ -100,7 +105,7 @@ export class CadastroUsuarioComponent implements OnInit {
       email: this.email,
       senha: this.senha,
       documento: this.cpf,
-      funcao: "USUARIO"
+      funcaoSelecionada: this.funcaoSelecionada
     };
   
     this.enviando = true;
@@ -110,15 +115,25 @@ export class CadastroUsuarioComponent implements OnInit {
         const idUsuario = response.id; 
   
         this.exibirToast("Cadastro realizado com sucesso!", "success");
-        console.log("Usuário cadastrado com ID:", idUsuario);
   
         const termos = localStorage.getItem("termos");
         if (termos) {
           const termosAceitos = JSON.parse(termos);
-  
+ 
+          if(this.check == true){
+
+          }
+ 
+ 
+          const termosObj = {
+            "aceito":termosAceitos.respostas[1],
+
+            "termoItemCodigo":termosAceitos.termoItemCodigo,
+              "usuarioCodigo":idUsuario,
+          };
           termosAceitos.usuarioCodigo = idUsuario;
   
-          this.http.post("historico/aceite", termosAceitos)
+          this.http.post("historico/aceite", termosObj)
             .then(() => {
               this.exibirToast("Termos aceitos!", "success");
             })

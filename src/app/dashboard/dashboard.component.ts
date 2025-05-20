@@ -188,7 +188,7 @@ export class DashboardComponent implements OnInit {
         this.http.get("usuarios").then(x => {
             this.usuarios = x;
             const funcao = localStorage.getItem("funcao")
-            if (funcao === "ADMIN") {
+            if (funcao?.toUpperCase().trim() == "ADMIN") {
                 this.exibeFiltroUsuario = true
                 return;
             }

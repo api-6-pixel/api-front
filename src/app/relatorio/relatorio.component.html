@@ -1,0 +1,44 @@
+<ion-content appScrollbar>
+  <ion-row>
+    <ion-col size="12" size-md="4" *ngIf="exibeFiltroUsuario">
+      <ion-item>
+        <ion-label position="stacked">SELECIONE UM USUÁRIO *</ion-label>
+        <ion-select (ionChange)="onUsuarioChange($event)" interface="action-sheet" placeholder="Selecione um usuário"
+          required>
+          <ion-select-option *ngFor="let usuario of usuarios" [value]="usuario.id">{{ usuario.nome
+            }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+
+    <ion-col size="12" size-md="6">
+      <ion-item>
+        <ion-label position="stacked">SELECIONE UM LOTE *</ion-label>
+        <ion-select (ionChange)="onLoteChange($event)" interface="action-sheet" placeholder="Selecione um Lote"
+          required>
+          <ion-select-option *ngFor="let lote of lotes" [value]="lote.id">{{ lote.fazendaNome
+            }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col size="2" size-md="2">
+      <ion-button expand="block" (click)="filtrar()" color="success" style="margin-top: 16px;">
+        Baixar relatorio de atualizaçoes
+      </ion-button>
+    </ion-col>
+    <ion-col size="2" size-md="2">
+      <ion-button expand="block" (click)="exportarProjecao('gastos')" color="success" style="margin-top: 16px;">
+        Baixar projeção de gastos
+      </ion-button>
+    </ion-col>
+    <ion-col size="2" size-md="2">
+      <ion-button expand="block" (click)="exportarProjecao('crescimento')" color="success" style="margin-top: 16px;">
+        Baixar projeção de crescimento
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

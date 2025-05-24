@@ -6,18 +6,19 @@ import { ActivatedRoute, Router, NavigationEnd, RouterLink, RouterLinkActive } f
 import { ToastModule } from 'primeng/toast';
 import { IonApp, IonTitle, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink, IonHeader, IonToolbar, IonButton, IonButtons, IonCard, IonCol, IonFooter, IonInput, IonModal, IonPopover, IonRow, IonThumbnail, IonToggle } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { 
+import {
   mailOutline, mailSharp, barChartOutline,
-  paperPlaneOutline, paperPlaneSharp, 
-  heartOutline, heartSharp, 
-  archiveOutline, archiveSharp, 
-  trashOutline, trashSharp, 
-  warningOutline, warningSharp, chevronForwardCircleOutline, chevronForwardOutline, 
+  paperPlaneOutline, paperPlaneSharp,
+  heartOutline, heartSharp,
+  archiveOutline, archiveSharp,
+  trashOutline, trashSharp,
+  warningOutline, warningSharp, chevronForwardCircleOutline, chevronForwardOutline,
   chevronBackOutline,
   leafOutline, personCircleOutline, personOutline, documentTextOutline,
   personAddOutline,
   peopleCircle,
-  exitOutline
+  exitOutline,
+  documentOutline
 } from 'ionicons/icons';
 import { LoginComponent } from './login/login.component';
 
@@ -83,26 +84,27 @@ export class AppComponent {
 
   constructor(private router: Router, private route: ActivatedRoute) {
     addIcons({
-      mailOutline, 
+      mailOutline,
       barChartOutline,
       personAddOutline,
-      mailSharp, 
-      paperPlaneOutline, 
-      paperPlaneSharp, 
-      heartOutline, 
+      mailSharp,
+      paperPlaneOutline,
+      paperPlaneSharp,
+      heartOutline,
       chevronForwardCircleOutline, chevronForwardOutline, chevronBackOutline,
       heartSharp,
-      exitOutline, 
-      archiveOutline, 
-      archiveSharp, 
-      trashOutline, 
-      trashSharp, 
-      warningOutline, 
+      exitOutline,
+      archiveOutline,
+      archiveSharp,
+      trashOutline,
+      trashSharp,
+      warningOutline,
       warningSharp,
       leafOutline,
       personCircleOutline,
       personOutline,
-      documentTextOutline
+      documentTextOutline,
+      documentOutline
     });
 
     // Sempre que houver navegação, verificar se é para a página de login ou outra
@@ -169,9 +171,9 @@ export class AppComponent {
           icon: 'leaf-outline'
         },
         {
-          caption: "CADASTRO USUARIO",
-          link: 'cadastrousuario',
-          icon: 'person-add-outline'
+          caption: "RELATORIOS",
+          link: 'relatorio',
+          icon: 'document-outline'
         },
         {
           caption: "SAIR",

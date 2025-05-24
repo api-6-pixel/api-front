@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { 
-  IonApp, 
-  IonSplitPane, 
-  IonMenu, 
-  IonContent, 
-  IonList, 
-  IonListHeader, 
-  IonNote, 
-  IonMenuToggle, 
-  IonItem, 
-  IonIcon, 
-  IonLabel, 
-  IonRouterOutlet, 
+import {
+  IonApp,
+  IonSplitPane,
+  IonMenu,
+  IonContent,
+  IonList,
+  IonListHeader,
+  IonNote,
+  IonMenuToggle,
+  IonItem,
+  IonIcon,
+  IonLabel,
+  IonRouterOutlet,
   IonRouterLink,
   IonButton,
   IonCol,
@@ -23,7 +23,7 @@ import {
   IonToolbar,
   IonHeader,
   IonCard,
-  IonSelect, 
+  IonSelect,
   IonInput,
   IonSelectOption,
   IonGrid,
@@ -41,45 +41,45 @@ import { NgFor, NgIf } from '@angular/common';
   selector: 'app-atualizacao',
   templateUrl: './atualizacao.component.html',
   styleUrls: ['./atualizacao.component.scss'],
-  imports: [ 
-      IonApp,
-      IonGrid,
-      ScrollbarDirective,
-      IonSelect,
-      FormsModule,
-      IonSelectOption,
-      IonRow, 
-      IonTitle,
-      IonCardHeader,
-      IonInput,
-      IonIcon,
-      IonSplitPane, 
-      IonMenu, 
-      IonContent, 
-      IonList, 
-      IonListHeader, 
-      IonNote, 
-      IonMenuToggle, 
-      IonItem, 
-      IonIcon, 
-      IonLabel, 
-      IonRouterLink, 
-      IonRouterOutlet,
-      IonButton,
-      IonCol,
-      IonMenuButton,
-      IonTitle,
-      IonButtons,
-      IonToolbar,
-      IonHeader,
-      NgFor,
-      NgIf,     
-      IonCard,
-      IonCardContent
-    ],
+  imports: [
+    IonApp,
+    IonGrid,
+    ScrollbarDirective,
+    IonSelect,
+    FormsModule,
+    IonSelectOption,
+    IonRow,
+    IonTitle,
+    IonCardHeader,
+    IonInput,
+    IonIcon,
+    IonSplitPane,
+    IonMenu,
+    IonContent,
+    IonList,
+    IonListHeader,
+    IonNote,
+    IonMenuToggle,
+    IonItem,
+    IonIcon,
+    IonLabel,
+    IonRouterLink,
+    IonRouterOutlet,
+    IonButton,
+    IonCol,
+    IonMenuButton,
+    IonTitle,
+    IonButtons,
+    IonToolbar,
+    IonHeader,
+    NgFor,
+    NgIf,
+    IonCard,
+    IonCardContent
+  ],
 })
 export class AtualizacaoComponent implements OnInit {
-  lotes: any[] = [];  
+  lotes: any[] = [];
   loteSelecionado: any = null;
   especie = '';
   condicao = '';
@@ -102,30 +102,21 @@ export class AtualizacaoComponent implements OnInit {
     public router: Router
   ) { }
 
-  ngOnInit() {
-    const loteString = sessionStorage.getItem("lotes");
-  
-    if (loteString) {
-      try {
-        const loteData = JSON.parse(loteString);
-  
-        if (Array.isArray(loteData)) {
-          this.lotes = loteData;  
-        } else {
-          this.lotes = [loteData];  
-        }
-      } catch (e) {
-        console.error("Erro ao analisar os dados do sessionStorage:", e);
-      }
-    }
+  teste() {
+
+
   }
-  
-  
+
+  ngOnInit() {
+    this.http.get("usuarios").then(x => {
+      this.lotes = x.filter((z:any) => z.id == localStorage.getItem('idUser'))[0].plantacao;
+    })
+  }
 
   onLoteChange(event: any) {
     const loteId = event.detail.value;
 
-   const selectedLote = this.lotes.find((l: { id: any }) => l.id === loteId);
+    const selectedLote = this.lotes.find((l: { id: any }) => l.id === loteId);
     if (selectedLote) {
       this.loteSelecionado = selectedLote;
       this.plantacaoId = selectedLote.id;
@@ -136,15 +127,11 @@ export class AtualizacaoComponent implements OnInit {
     }
   }
 
- 
-
-  
-
   async enviarDados() {
-    if (!this.plantacaoId || this.temperaturaAmbiente === null || this.temperaturaSolo === null || 
-        this.umidadeAmbiente === null || this.umidadeSolo === null || this.phSolo === null || 
-        this.indiceUV === null) {
-      
+    if (!this.plantacaoId || this.temperaturaAmbiente === null || this.temperaturaSolo === null ||
+      this.umidadeAmbiente === null || this.umidadeSolo === null || this.phSolo === null ||
+      this.indiceUV === null) {
+
       this.exibirToast("Preencha todos os campos obrigatórios!", "danger");
       return;
     }
@@ -160,24 +147,24 @@ export class AtualizacaoComponent implements OnInit {
       indiceUV: this.indiceUV,
     };
 
-   
-      this.http.post("atualizacoes", dados).then((response) =>    {
-          this.exibirToast("Dados enviados com sucesso!", "success")
-          this.router.navigate(['/dashboard']);
-        }
-        ).catch((error) => {
+
+    this.http.post("atualizacoes", dados).then((response) => {
+      this.exibirToast("Dados enviados com sucesso!", "success")
+      this.router.navigate(['/dashboard']);
+    }
+    ).catch((error) => {
       const mensagemErro = error?.message || "Erro desconhecido";
       this.exibirToast(`Erro ao enviar os dados! Erro: ${mensagemErro}`, "danger");
     });
-    
+
   }
 
   async exibirToast(mensagem: string, cor: string) {
     const toast = await this.toastController.create({
       message: mensagem,
-      duration: 3000, 
+      duration: 3000,
       position: "bottom",
-      color: cor, 
+      color: cor,
     });
     await toast.present();
   }

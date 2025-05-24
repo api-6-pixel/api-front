@@ -17,7 +17,8 @@ import {
   leafOutline, personCircleOutline, personOutline, documentTextOutline,
   personAddOutline,
   peopleCircle,
-  exitOutline
+  exitOutline,
+  documentOutline
 } from 'ionicons/icons';
 import { LoginComponent } from './login/login.component';
 
@@ -102,7 +103,8 @@ export class AppComponent {
       leafOutline,
       personCircleOutline,
       personOutline,
-      documentTextOutline
+      documentTextOutline,
+      documentOutline
     });
 
     // Sempre que houver navegação, verificar se é para a página de login ou outra

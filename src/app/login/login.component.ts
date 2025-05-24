@@ -98,7 +98,7 @@ export class LoginComponent implements OnInit {
     await loading.present();
 
     const body = {
-      email: this.email,
+      nomeUsuario: this.email,
       senha: this.senha
     };
 

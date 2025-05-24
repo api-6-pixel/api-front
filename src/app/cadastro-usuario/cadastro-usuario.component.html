@@ -1,3 +1,4 @@
+
 <ion-content appScrollbar>
   <ion-card>
     <ion-card-header>
@@ -74,7 +75,7 @@
           <hr />
 
           <ion-item lines="none">
-            <ion-checkbox slot="start"></ion-checkbox>
+            <ion-checkbox [(ngModel)]="check" slot="start"></ion-checkbox>
             <ion-label (click)="openModal()" class="ion-text-wrap" style="cursor: pointer;">
               Li e estou de acordo com os <strong style="color: blue;">termos de condições</strong>
             </ion-label>
@@ -101,3 +102,4 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
+

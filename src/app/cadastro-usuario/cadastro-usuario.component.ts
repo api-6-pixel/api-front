@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { ModalController, IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +14,7 @@ import { ToastController } from '@ionic/angular/standalone';
   templateUrl: './cadastro-usuario.component.html',
   styleUrls: ['./cadastro-usuario.component.scss'],
   imports: [
-    IonicModule,            
+    IonicModule,
     ScrollbarDirective,
     FormsModule,
     NgFor,
@@ -21,35 +22,41 @@ import { ToastController } from '@ionic/angular/standalone';
   ],
 })
 export class CadastroUsuarioComponent implements OnInit {
-  nome:string="";
-  senha:string="";
-  cpf:string="";
-  email:string="";
-  usuarioNome:string="";
-  funcao:string="";
-  abriu:boolean = false;
-  constructor(private modalCtrl: ModalController,private http:HttpService, public toastController: ToastController
-  ) {}
+  nome: string = "";
+  senha: string = "";
+  cpf: string = "";
+  email: string = "";
+  usuarioNome: string = "";
+  funcao: string = "";
+  abriu: boolean = false;
+  check: boolean = false;
 
-  ngOnInit() {}
+  constructor(private modalCtrl: ModalController, private http: HttpService, public toastController: ToastController
+  ) { }
 
-  
+  ngOnInit() { }
+
+
   async openModal() {
     this.abriu = true;
     const modal = await this.modalCtrl.create({
       component: ModalTermoUsuarioComponent,
+      componentProps: { check: this.check }
     });
-  
+
     await modal.present();
-  
+
     const { data } = await modal.onDidDismiss();
-  
+
     if (data) {
-  
+
       if (data.accepted === false) {
-        localStorage.setItem("termo","recusou")
+        this.check = true;
+        localStorage.setItem("termo", "recusou")
         console.log('Usuário recusou os termos');
       } else if (data.accepted === true) {
+        this.check = true;
+
         console.log('Usuário aceitou os termos');
       } else {
         console.log('Modal fechado sem ação definida');
@@ -57,7 +64,7 @@ export class CadastroUsuarioComponent implements OnInit {
     }
   }
 
-  
+
   async exibirToast(mensagem: string, cor: string) {
     const toast = await this.toastController.create({
       message: mensagem,
@@ -71,9 +78,9 @@ export class CadastroUsuarioComponent implements OnInit {
 
 
 
-  
-  
-  enviando = false; 
+
+
+  enviando = false;
 
 
 
@@ -83,60 +90,77 @@ export class CadastroUsuarioComponent implements OnInit {
     if (termo === "recusou" || this.abriu === false || this.enviando) {
       return;
     }
-  
+
     if (!this.usuarioNome || !this.email || !this.senha || !this.cpf) {
       this.exibirToast("Por favor, preencha todos os campos obrigatórios.", "danger");
       return;
     }
-  
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(this.email)) {
       this.exibirToast("Por favor, insira um e-mail válido.", "warning");
       return;
     }
-  
+
+
+
     const body = {
       nome: this.usuarioNome,
+      nomeUsuario: this.usuarioNome,
       email: this.email,
       senha: this.senha,
       documento: this.cpf,
       funcao: "USUARIO"
     };
-  
+
     this.enviando = true;
-  
+
     this.http.post("usuarios", body)
       .then((response: any) => {
-        const idUsuario = response.id; 
-  
+        const idUsuario = response.id;
+
         this.exibirToast("Cadastro realizado com sucesso!", "success");
-        console.log("Usuário cadastrado com ID:", idUsuario);
-  
+
         const termos = localStorage.getItem("termos");
         if (termos) {
           const termosAceitos = JSON.parse(termos);
-  
-          termosAceitos.usuarioCodigo = idUsuario;
-  
-          this.http.post("historico/aceite", termosAceitos)
+          const aceitos = termosAceitos.respostas;
+          const codigos = termosAceitos.termoItemCodigo;
+
+          const promessas = [];
+
+          for (let i = 0; i < codigos.length; i++) {
+            const codigo = codigos[i];
+            const termoObj = {
+              aceito: aceitos[i],
+              termoItemCodigo: codigos[0],
+              usuarioCodigo: idUsuario
+            };
+
+            promessas.push(this.http.post("historico/aceite", termoObj));
+          }
+
+          // Aguarda todas as requisições terminarem
+          Promise.all(promessas)
             .then(() => {
               this.exibirToast("Termos aceitos!", "success");
             })
             .catch((error: any) => {
-              console.log(error);
+              console.error("Erro ao aceitar termos:", error);
             });
         } else {
           console.log("Nenhum termo encontrado no localStorage");
         }
       })
       .catch((error: any) => {
-        console.log(error);
+        console.error("Erro ao cadastrar usuário:", error);
       })
       .finally(() => {
         this.enviando = false;
       });
   }
-  
+
+
 
 
 }

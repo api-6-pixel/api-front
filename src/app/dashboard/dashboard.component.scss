@@ -86,3 +86,76 @@
     font-family: "Poppins";
 
   }
+
+
+  .custom-modal-wrapper {
+  --background: transparent; /* Remove o fundo branco */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0; /* Remove espaçamento */
+}
+
+.custom-modal-card {
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  background: #fff;
+}
+
+.custom-modal-header {
+  background: #4caf50;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  padding: 16px;
+}
+
+.custom-modal-title {
+  font-size: 1.3rem;
+  color: #fff;
+  text-align: center;
+}
+
+.melhorias-lista {
+  margin-top: 12px;
+  padding: 0 8px;
+}
+
+.melhoria-item {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.custom-close-button {
+  margin-top: 20px;
+  font-weight: bold;
+  --background: #9e9e9e;
+  --color: #fff;
+  --border-radius: 8px;
+}
+/* Remove o fundo branco externo */
+.modal-transparente::part(backdrop) {
+  background: rgba(0, 0, 0, 0.3); /* Ou use transparent */
+}
+
+/* Remove a área branca do modal */
+.modal-transparente::part(content) {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.blinking-alert {
+  color: red;
+  animation: blink 1s infinite;
+  font-size: 20px;
+  margin-left: 6px;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.1; }
+  100% { opacity: 1; }
+}

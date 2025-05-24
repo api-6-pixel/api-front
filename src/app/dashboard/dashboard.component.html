@@ -6,99 +6,174 @@
       </ion-title>
     </ion-card-header>
     <ion-list>
-    <ion-item>
-      <ion-grid>
-        <ion-row class="ion-align-items-center">
-          <!-- Campo TETO DE GASTOS -->
+      <ion-item>
+        <ion-grid>
+          <ion-row class="ion-align-items-center">
+            <!-- Campo TETO DE GASTOS -->
             <ion-col size="4">
               <ion-item>
                 <ion-label position="stacked">SELECIONE UM LOTE *</ion-label>
-                <ion-select (ionChange)="onLoteChange($event)" interface="action-sheet" placeholder="Selecione um Lote" required>
-                  <ion-select-option *ngFor="let lote of lotes" [value]="lote.id">{{ lote.fazendaNome }}</ion-select-option>
+                <ion-select (ionChange)="onLoteChange($event)" interface="action-sheet" placeholder="Selecione um Lote"
+                  required>
+                  <ion-select-option *ngFor="let lote of lotes" [value]="lote.id">{{ lote.fazendaNome
+                    }}</ion-select-option>
                 </ion-select>
-
 
               </ion-item>
             </ion-col>
 
+            <ion-col size="4">
+              <ion-input labelPlacement="floating" [(ngModel)]="dataSelecionado">
+                <div slot="label">QUANTIDADE DE MESES <ion-text color="danger">(Obrigatorio)</ion-text></div>
+              </ion-input>
+            </ion-col>
 
-          <!-- Campo QUANTIDADE DE MESES -->
-          <ion-col size="4">
-            <ion-input labelPlacement="floating" [(ngModel)]="dataSelecionado">
-              <div slot="label">QUANTIDADE DE MESES <ion-text color="danger">(Obrigatorio)</ion-text></div>
-            </ion-input>
-          </ion-col>
-
-          <!-- Botão ATUALIZAR PLANTIO -->
-          <ion-col size="4" class="ion-text-center">
-            <ion-button expand="block" (click)="exibirDashboard()" style="
+            <ion-col size="4" class="ion-text-center">
+              <ion-button expand="block" (click)="exibirDashboard()" style="
                 min-height: 36px;
                 font-size: 0.875rem;
                 font-weight: 500;
             ">BUSCAR
-            </ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
 
-    </ion-item>
-  </ion-list>
+      </ion-item>
+    </ion-list>
 
-  <ion-grid  class="plantacao-fundo">
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="12" size-md="6">
-        <ion-card class="ion-card-dash-1">
+    <ion-grid class="plantacao-fundo">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="12" size-md="6">
+          <ion-card class="ion-card-dash-1">
+            <ion-card-header class="ion-card-header-dash">
+              <ion-title class="ion-text-center ion-title-white">
+                CRESCIMENTO DA COLHEITA
+              </ion-title>
+            </ion-card-header>
+            <ion-card-content>
+              <p-chart *ngIf="exibeDashBoard == true" type="line" [data]="growthData"
+                [options]="growthOptions"></p-chart>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="12" size-md="6">
+          <ion-card class="ion-card-dash-1">
+            <ion-card-header class="ion-card-header-dash">
+              <ion-title class="ion-text-center ion-title-white">
+                PROJEÇÃO FINANCEIRA
+              </ion-title>
+            </ion-card-header>
+            <ion-card-content>
+              <p class="ion-text-center"><strong>Teto dos Gastos:</strong> R$ {{ tetoGastos }}</p>
+
+              <p-chart *ngIf="exibeDashBoard == true" type="line" [data]="financeData"
+                [options]="financialOptions"></p-chart>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+
+    <ion-grid class="plantacao-fundo">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="12" size-md="12">
           <ion-card-header class="ion-card-header-dash">
             <ion-title class="ion-text-center ion-title-white">
-               CRESCIMENTO DA COLHEITA
-            </ion-title>
-          </ion-card-header>
-          <ion-card-content>
-            <p-chart *ngIf="exibeDashBoard == true" type="line" [data]="growthData" [options]="growthOptions"></p-chart>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-
-      <ion-col size="12" size-md="6">
-        <ion-card class="ion-card-dash-1">
-          <ion-card-header class="ion-card-header-dash">
-            <ion-title class="ion-text-center ion-title-white">
-              PROJEÇÃO FINANCEIRA
-            </ion-title>
-          </ion-card-header>
-          <ion-card-content>
-            <p class="ion-text-center"><strong>Teto dos Gastos:</strong> R$ {{ tetoGastos  }}</p>
-
-            <p-chart *ngIf="exibeDashBoard == true" type="line" [data]="financeData" [options]="financeOptions" ></p-chart>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-
-  </ion-grid>
-
-  <ion-grid  class="plantacao-fundo">
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="12" size-md="12">
-          <ion-card-header class="ion-card-header-dash">
-            <ion-title class="ion-text-center ion-title-white">
-               Acompanhamento diario
+              Acompanhamento diario
             </ion-title>
           </ion-card-header>
           <ion-card-content *ngIf="exibeDashBoard == true">
-            <ion-row *ngFor="let item of dailyData">
+             <ion-list>
+                <ion-row *ngFor="let item of dailyData">
               <ion-col size="6" size-md="6" class="ion-text-center">
-                {{item.dia}}
+               Dia {{item.dia}}
               </ion-col>
               <ion-col size="6" size-md="6" class="ion-text-center">
-                {{item.status}}
+               Crescimento -  {{item.status}}
               </ion-col>
             </ion-row>
-          </ion-card-content>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
 
-</ion-card>
+            </ion-list>
+          </ion-card-content>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+    <ion-grid>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="12" size-md="12">
+            <ion-card-header class="ion-card-header-dash">
+              <ion-title class="ion-text-center ion-title-white">
+                Tabela de Classificação de Variáveis Agrícolas
+              </ion-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <ion-list>
+                <ion-item *ngFor="let variavel of variaveis; let i = index" lines="full">
+
+                  <ion-label>
+                    {{ variavel.nome }} - Data:{{variavel.data}}
+                  </ion-label>
+
+                  <ion-icon *ngIf="variavel.alerta" name="warning-outline" color="danger" slot="end"
+                    style="margin-right: 8px;">
+                  </ion-icon>
+
+                  <!-- Botão de ajuda com popover -->
+                  <ion-button fill="clear" [id]="'info-trigger-' + i" aria-label="Mais informações" slot="end"
+                    style="min-width: 24px;">
+                    <ion-icon name="help-circle-outline" color="medium"></ion-icon>
+                  </ion-button>
+
+                  <!-- Popover com detalhes dos statuses -->
+                  <ion-popover [trigger]="'info-trigger-' + i" triggerAction="hover" side="bottom" alignment="center">
+                    <ng-template>
+                      <ion-content class="ion-padding" style="max-width: 300px;">
+                        <h2>{{ variavel.nome }}</h2>
+                        <p style="font-size: 13px; color: #666; margin-bottom: 10px;">
+                          Veja abaixo os intervalos que definem se o valor da variável está ruim, aceitável ou ideal.
+                        </p>
+                        <table style="width: 100%; border-collapse: collapse;">
+                          <thead>
+                            <tr>
+                              <th style="text-align:left; padding: 4px; border-bottom: 1px solid #ccc;">Status</th>
+                              <th style="text-align:left; padding: 4px; border-bottom: 1px solid #ccc;">Valor</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let status of variavel.statuses">
+                              <td style="padding: 4px; font-weight: bold;"
+                                [style.color]="getColorForStatus(status.nome)">
+                                {{ status.nome }}
+                              </td>
+                              <td style="padding: 4px;">{{ status.valor }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </ion-content>
+                    </ng-template>
+                  </ion-popover>
+
+                </ion-item>
+              </ion-list>
+
+            </ion-card-content>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+  </ion-card>
+
+
+
+
+
+
 
 </ion-content>

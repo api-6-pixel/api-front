@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { ButtonModule } from 'primeng/button';
-import { NgIf, NgFor } from '@angular/common';
+import { NgIf, NgFor, DatePipe } from '@angular/common';
 import {
   IonApp,
   IonSplitPane,
@@ -75,6 +75,7 @@ Chart.register(...registerables, annotationPlugin);
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
   imports: [
+    DatePipe,
     IonApp,
     IonGrid,
     IonInput,
@@ -163,20 +164,16 @@ export class DashboardComponent implements OnInit {
   loteSelecionadoId: number = 0;
   dataAtual: string = '';
 
+  today = new Date();
   tetoGastos: number = 0;
   mostrarModal = false;
   melhoriasSugeridas: string[] = [];
-   exibeFiltroUsuario: any = false;
+  exibeFiltroUsuario: any = false;
 
 
   dailyDataSaudeMelhoria: any;
 
   saude: any;
-
-
-
-
-
 
   labelsMap: Record<number, string> = {
     1: 'Baixo',
@@ -194,8 +191,8 @@ export class DashboardComponent implements OnInit {
         borderColor: '#66BB6A',
         borderWidth: 2,
         fill: true,
-        
-        tension:0.04
+
+        tension: 0.04
       }
     ]
   };
@@ -254,22 +251,22 @@ export class DashboardComponent implements OnInit {
     ]
   };
 
-  
+
   public financialOptions: ChartOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      display: true,
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+      }
+      // annotation removido
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        suggestedMax: this.tetoGastos + 10
+      }
     }
-    // annotation removido
-  },
-  scales: {
-    y: {
-      beginAtZero: true,
-      suggestedMax: this.tetoGastos + 10
-    }
-  }
-};
+  };
 
 
 
@@ -291,27 +288,18 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
 
-    
- this.http.get("usuarios").then(x => {
-            this.usuarios = x;
-            const funcao = localStorage.getItem("funcao")
-            if (funcao?.toUpperCase().trim() == "ADMIN") {
-                this.exibeFiltroUsuario = true
-                return;
-            }
-            this.onUsuarioChange({ detail: { value: localStorage.getItem('idUser') } })
-        })
-    
-    
-    
-    
-    
-    
-    
-    
+
+    this.http.get("usuarios").then(x => {
+      this.usuarios = x;
+      const funcao = localStorage.getItem("funcao")
+      if (funcao?.toUpperCase().trim() == "ADMIN") {
+        this.exibeFiltroUsuario = true
+        return;
+      }
+      this.onUsuarioChange({ detail: { value: localStorage.getItem('idUser') } })
+    })
+
     this.dataAtual = new Date().toLocaleDateString();
-
-
 
     const loteString = sessionStorage.getItem("lotes");
 
@@ -340,17 +328,12 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-   onUsuarioChange(event: any) {
-        this.lotes = this.usuarios.filter(x => x.id == event.detail.value)[0].plantacao;
-    }
+  onUsuarioChange(event: any) {
+    this.lotes = this.usuarios.filter(x => x.id == event.detail.value)[0].plantacao;
+  }
 
   async exibirDashboard() {
     this.exibeDashBoard = true;
-
-
-
- 
-
 
     const body = {
       meses_projecao: Number(this.dataSelecionado),
@@ -411,7 +394,7 @@ export class DashboardComponent implements OnInit {
       const statusData = statusList[index]?.data
       const faixas = classificacoes[nomePropriedade] || [];
 
-      const precisaMelhorar = statusAtual === 'RUIM' && melhorar;
+      const precisaMelhorar = melhorar;
 
       let dataFormatada = '';
       if (statusData) {
@@ -423,6 +406,8 @@ export class DashboardComponent implements OnInit {
       return {
         nome: nomePropriedade,
         alerta: precisaMelhorar,
+        status: melhoria.status,
+        valorAtual: melhoria.valorAtual,
         data: dataFormatada,
         statuses: faixas.map((faixa: any) => ({
           nome: faixa.nome === statusAtual ? `✅ ${faixa.nome}` : faixa.nome,
@@ -444,7 +429,7 @@ export class DashboardComponent implements OnInit {
 
 
     const growthDataMapped = response.crescimento.map((nivel: string, index: number) => {
-   
+
       if (nivel === "Baixo") return 1;
       if (nivel === "Médio") return 2;
       return 3;
@@ -455,7 +440,7 @@ export class DashboardComponent implements OnInit {
       datasets: [
         {
           label: 'Gastos Projetados (R$)',
-          data: response.gastos_projetados.map((p: number) => (p / 100) * response.teto_gastos), 
+          data: response.gastos_projetados.map((p: number) => (p / 100) * response.teto_gastos),
           backgroundColor: 'rgba(33, 150, 243, 0.2)',
           borderColor: '#2196F3',
           borderWidth: 2,
@@ -474,7 +459,7 @@ export class DashboardComponent implements OnInit {
           borderColor: '#66BB6A',
           borderWidth: 2,
           fill: true,
-          tension:0.04
+          tension: 0.04
         }
       ]
     };
@@ -542,14 +527,14 @@ export class DashboardComponent implements OnInit {
   }
 
   getColorForStatus(status: string): string {
-    return this.getBadgeColor(status); 
+    return this.getBadgeColor(status);
   }
 
   getIconColor(status: string): string {
     switch (status.toUpperCase()) {
-      case 'RUIM': return 'danger';    
-      case 'ACEITÁVEL': return 'warning'; 
-      case 'IDEAL': return 'success';  
+      case 'RUIM': return 'danger';
+      case 'ACEITÁVEL': return 'warning';
+      case 'IDEAL': return 'success';
       default: return 'medium';
     }
   }

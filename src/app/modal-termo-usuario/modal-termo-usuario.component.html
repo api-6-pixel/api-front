@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>Termo de Consentimento LGPD</ion-title>
     <ion-buttons slot="end">
-      <ion-button color="medium" (click)="close()">Fechar</ion-button>
+      <ion-button color="medium" (click)="concordar()">Fechar</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -56,12 +56,4 @@
     Você poderá revogar seu consentimento a qualquer momento por meio das configurações de privacidade ou contato com o suporte.
   </ion-note>
 
-  <ion-row class="ion-padding-top">
-    <ion-col size="6">
-      <ion-button expand="block" color="danger" (click)="recusar()">Recusar</ion-button>
-    </ion-col>
-    <ion-col size="6">
-      <ion-button expand="block" color="primary" [disabled]="!podeConcordar()" (click)="concordar()">Concordar</ion-button>
-    </ion-col>
-  </ion-row>
 </ion-content>

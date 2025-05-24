@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 import { NgIf, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -22,36 +22,50 @@ import { HttpParams } from '@angular/common/http';
   ],
 })
 export class ModalTermoUsuarioComponent implements OnInit {
-  termoId: number = 0;
+  termoId: any[] = [];
+  @Input() check: any;
   descricao: string = '';
   itensObrigatorios: any[] = [];
   itensOpcionais: any[] = [];
   aceito: boolean = false;
   respostas: { [codigoItem: number]: boolean } = {};
   usuarioCodigo: any;
+  respostaVersionada: any;
   constructor(
     private modalCtrl: ModalController,
     private http: HttpService,
     public toastController: ToastController
   ) { }
 
-  ngOnInit() {
-    this.usuarioCodigo = localStorage.getItem('idUser') || "0"
-    const params = new HttpParams().set('usuarioCodigo', this.usuarioCodigo);
-    this.http.get('historico/ativo', { params }).then((data: any) => {
-      this.termoId = data.termoId;
-      this.descricao = data.descricao;
-      this.itensObrigatorios = data.obrigatorios;
-      this.itensOpcionais = data.opcionais;
-      this.aceito = data.aceito;
-    
-      [...this.itensObrigatorios, ...this.itensOpcionais].forEach((item) => {
-        this.respostas[item.codigo] = item.aceito;
-      });
-    });
-    
 
-  }
+  ngOnInit() {
+  this.usuarioCodigo = localStorage.getItem('idUser') || "0";
+  const params = new HttpParams().set('usuarioCodigo', this.usuarioCodigo);
+
+  this.http.get('historico/aceitos', { params }).then((data: any) => {
+    this.respostaVersionada = data.map((item: any) => item.aceito);
+  });
+
+  this.http.get('historico/ativo', { params }).then((data: any) => {
+    this.termoId = data.termoId;
+    this.descricao = data.descricao;
+    this.itensObrigatorios = data.obrigatorios;
+    this.itensOpcionais = data.opcionais;
+    this.aceito = data.aceito;
+
+    const todosItens = [...this.itensObrigatorios, ...this.itensOpcionais];
+    this.respostas = {};
+
+    todosItens.forEach((item, index) => {
+      this.respostas[item.codigo] = this.check !== false
+        ? this.check
+        : this.respostaVersionada[index]; 
+    });
+
+    this.termoId = todosItens.map(item => item.codigo);
+  });
+}
+
 
   podeConcordar(): boolean {
     // Verifica se todos os obrigatórios foram aceitos
@@ -70,22 +84,30 @@ export class ModalTermoUsuarioComponent implements OnInit {
     await toast.present();
   }
 
+  
   concordar() {
-    var codigoUsuario = localStorage.getItem("idUser");
+  const codigoUsuario = localStorage.getItem("idUser");
 
-    const termosAceitos = {
-      usuarioCodigo: Number(codigoUsuario),
-      termoItemCodigo: this.termoId,
-      respostas: this.respostas,
-    };
+  // Concatena os itens obrigatórios e opcionais na ordem
+  const todosItens = [...(this.itensObrigatorios || []), ...(this.itensOpcionais || [])];
 
-    localStorage.setItem('termos', JSON.stringify(termosAceitos));
+  // Cria o array de respostas em ordem, com true ou false
+  const respostasArray = todosItens.map(item => !!this.respostas[item.codigo]);
 
-    this.modalCtrl.dismiss({
-      accepted: true,
-      termos: termosAceitos,
-    });
-  }
+  const termosAceitos = {
+    usuarioCodigo: Number(codigoUsuario),
+    termoItemCodigo: this.termoId,
+    respostas: respostasArray, // <-- Aqui está o array com true/false
+  };
+
+  localStorage.setItem('termos', JSON.stringify(termosAceitos));
+
+  this.modalCtrl.dismiss({
+    accepted: true,
+    termos: termosAceitos,
+  });
+}
+
 
 
 

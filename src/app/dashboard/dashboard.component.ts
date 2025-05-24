@@ -286,11 +286,13 @@ export class DashboardComponent implements OnInit {
   };
 
   dailyData: any;
+  usuarios: any[] = []
 
 
   ngOnInit() {
+
     
-    this.http.get("usuarios").then(x => {
+ this.http.get("usuarios").then(x => {
             this.usuarios = x;
             const funcao = localStorage.getItem("funcao")
             if (funcao?.toUpperCase().trim() == "ADMIN") {
@@ -299,7 +301,6 @@ export class DashboardComponent implements OnInit {
             }
             this.onUsuarioChange({ detail: { value: localStorage.getItem('idUser') } })
         })
-
     
     
     
@@ -338,6 +339,10 @@ export class DashboardComponent implements OnInit {
       this.loteSelecionadoId = loteId
     }
   }
+
+   onUsuarioChange(event: any) {
+        this.lotes = this.usuarios.filter(x => x.id == event.detail.value)[0].plantacao;
+    }
 
   async exibirDashboard() {
     this.exibeDashBoard = true;

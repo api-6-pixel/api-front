@@ -85,100 +85,84 @@ export class CadastroUsuarioComponent implements OnInit {
 
 
 
-
-  enviarDados() {
-    const termo = localStorage.getItem("termo");
-    if (termo === "recusou" || this.abriu === false || this.enviando) {
-      return;
-    }
-
-    if (!this.usuarioNome || !this.email || !this.senha || !this.cpf) {
-      this.exibirToast("Por favor, preencha todos os campos obrigatórios.", "danger");
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(this.email)) {
-      this.exibirToast("Por favor, insira um e-mail válido.", "warning");
-      return;
-    }
-
-
-
-    const body = {
-      nome: this.usuarioNome,
-      nomeUsuario: this.usuarioNome,
-      email: this.email,
-      senha: this.senha,
-      documento: this.cpf,
-      funcaoSelecionada: this.funcaoSelecionada
-    };
-
-    this.enviando = true;
-
-    this.http.post("usuarios", body)
-      .then((response: any) => {
-        const idUsuario = response.id;
-
-        this.exibirToast("Cadastro realizado com sucesso!", "success");
-
-        const termos = localStorage.getItem("termos");
-        if (termos) {
-          const termosAceitos = JSON.parse(termos);
-          const aceitos = termosAceitos.respostas;
-          const codigos = termosAceitos.termoItemCodigo;
-
-          const promessas = [];
-
-          for (let i = 0; i < codigos.length; i++) {
-            const codigo = codigos[i];
-            const termoObj = {
-              aceito: aceitos[i],
-              termoItemCodigo: codigos[0],
-              usuarioCodigo: idUsuario
-            };
-
-            promessas.push(this.http.post("historico/aceite", termoObj));
-          }
-
-          // Aguarda todas as requisições terminarem
-          Promise.all(promessas)
-  
-        const termos = localStorage.getItem("termos");
-        if (termos) {
-          const termosAceitos = JSON.parse(termos);
- 
-          if(this.check == true){
-
-          }
- 
- 
-          const termosObj = {
-            "aceito":termosAceitos.respostas[1],
-
-            "termoItemCodigo":termosAceitos.termoItemCodigo,
-              "usuarioCodigo":idUsuario,
-          };
-          termosAceitos.usuarioCodigo = idUsuario;
-  
-          this.http.post("historico/aceite", termosObj)
-            .then(() => {
-              this.exibirToast("Termos aceitos!", "success");
-            })
-            .catch((error: any) => {
-              console.error("Erro ao aceitar termos:", error);
-            });
-        } else {
-          console.log("Nenhum termo encontrado no localStorage");
-        }
-      })
-      .catch((error: any) => {
-        console.error("Erro ao cadastrar usuário:", error);
-      })
-      .finally(() => {
-        this.enviando = false;
-      });
+  async enviarDados(): Promise<void> {
+  const termo = localStorage.getItem("termo");
+  if (termo === "recusou" || this.abriu === false || this.enviando) {
+    return;
   }
+
+  if (!this.usuarioNome || !this.email || !this.senha || !this.cpf) {
+    this.exibirToast("Por favor, preencha todos os campos obrigatórios.", "danger");
+    return;
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(this.email)) {
+    this.exibirToast("Por favor, insira um e-mail válido.", "warning");
+    return;
+  }
+
+  const body = {
+    nome: this.usuarioNome,
+    nomeUsuario: this.usuarioNome,
+    email: this.email,
+    senha: this.senha,
+    documento: this.cpf,
+    funcaoSelecionada: this.funcaoSelecionada
+  };
+
+  this.enviando = true;
+
+  try {
+    const response: any = await this.http.post("usuarios", body);
+    const idUsuario = response.id;
+    this.exibirToast("Cadastro realizado com sucesso!", "success");
+
+    const termosString = localStorage.getItem("termos");
+    if (termosString) {
+      const termosAceitos = JSON.parse(termosString);
+      const aceitos = termosAceitos.respostas;
+      const codigos = termosAceitos.termoItemCodigo;
+
+      const promessas = [];
+
+      for (let i = 0; i < codigos.length; i++) {
+        const codigo = codigos[i];
+        const termoObj = {
+          aceito: aceitos[i],
+          termoItemCodigo: codigo,
+          usuarioCodigo: idUsuario
+        };
+        promessas.push(this.http.post("historico/aceite", termoObj));
+      }
+
+      await Promise.all(promessas);
+
+      if (this.check === true) {
+        const termosObj = {
+          aceito: termosAceitos.respostas[1],
+          termoItemCodigo: termosAceitos.termoItemCodigo,
+          usuarioCodigo: idUsuario
+        };
+
+        try {
+          await this.http.post("historico/aceite", termosObj);
+          this.exibirToast("Termos aceitos!", "success");
+        } catch (error) {
+          console.error("Erro ao aceitar termos:", error);
+        }
+      }
+    } else {
+      console.log("Nenhum termo encontrado no localStorage");
+    }
+  } catch (error) {
+    console.error("Erro ao cadastrar usuário:", error);
+  } finally {
+    this.enviando = false;
+  }
+}
+
+
 
 
 }

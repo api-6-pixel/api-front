@@ -22,21 +22,22 @@ import { ToastController } from '@ionic/angular/standalone';
   ],
 })
 export class CadastroUsuarioComponent implements OnInit {
-  nome: string = "";
-  senha: string = "";
-  cpf: string = "";
-  email: string = "";
-  usuarioNome: string = "";
-  funcao: string = "";
-  abriu: boolean = false;
-  check: boolean = false;
 
-  constructor(private modalCtrl: ModalController, private http: HttpService, public toastController: ToastController
-  ) { }
+  nome:string="";
+  senha:string="";
+  cpf:string="";
+  email:string="";
+  usuarioNome:string="";
+  funcaoSelecionada:string="";
+  abriu:boolean = false;
+  check:boolean = false;
 
-  ngOnInit() { }
+  constructor(private modalCtrl: ModalController,private http:HttpService, public toastController: ToastController
+  ) {}
 
+  ngOnInit() {}
 
+  
   async openModal() {
     this.abriu = true;
     const modal = await this.modalCtrl.create({
@@ -110,7 +111,7 @@ export class CadastroUsuarioComponent implements OnInit {
       email: this.email,
       senha: this.senha,
       documento: this.cpf,
-      funcao: "USUARIO"
+      funcaoSelecionada: this.funcaoSelecionada
     };
 
     this.enviando = true;
@@ -142,6 +143,25 @@ export class CadastroUsuarioComponent implements OnInit {
 
           // Aguarda todas as requisições terminarem
           Promise.all(promessas)
+  
+        const termos = localStorage.getItem("termos");
+        if (termos) {
+          const termosAceitos = JSON.parse(termos);
+ 
+          if(this.check == true){
+
+          }
+ 
+ 
+          const termosObj = {
+            "aceito":termosAceitos.respostas[1],
+
+            "termoItemCodigo":termosAceitos.termoItemCodigo,
+              "usuarioCodigo":idUsuario,
+          };
+          termosAceitos.usuarioCodigo = idUsuario;
+  
+          this.http.post("historico/aceite", termosObj)
             .then(() => {
               this.exibirToast("Termos aceitos!", "success");
             })
@@ -159,8 +179,6 @@ export class CadastroUsuarioComponent implements OnInit {
         this.enviando = false;
       });
   }
-
-
 
 
 }

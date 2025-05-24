@@ -24,8 +24,6 @@
                 <ion-select (ionChange)="onLoteChange($event)" interface="action-sheet" placeholder="Selecione um Lote" required>
                   <ion-select-option *ngFor="let lote of lotes" [value]="lote.id">{{ lote.fazendaNome }}</ion-select-option>
                 </ion-select>
-
-                
               </ion-item>
             </ion-col>
           </ion-row>

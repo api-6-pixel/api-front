@@ -166,6 +166,7 @@ export class DashboardComponent implements OnInit {
   tetoGastos: number = 0;
   mostrarModal = false;
   melhoriasSugeridas: string[] = [];
+   exibeFiltroUsuario: any = false;
 
 
   dailyDataSaudeMelhoria: any;
@@ -288,6 +289,25 @@ export class DashboardComponent implements OnInit {
 
 
   ngOnInit() {
+    
+    this.http.get("usuarios").then(x => {
+            this.usuarios = x;
+            const funcao = localStorage.getItem("funcao")
+            if (funcao?.toUpperCase().trim() == "ADMIN") {
+                this.exibeFiltroUsuario = true
+                return;
+            }
+            this.onUsuarioChange({ detail: { value: localStorage.getItem('idUser') } })
+        })
+
+    
+    
+    
+    
+    
+    
+    
+    
     this.dataAtual = new Date().toLocaleDateString();
 
 

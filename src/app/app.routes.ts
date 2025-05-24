@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { CadastroPlantioComponent } from './cadastro-plantio/cadastro-plantio.component';
 
 export const routes: Routes = [
   {
@@ -20,33 +19,38 @@ export const routes: Routes = [
   },
 
   {
-    path:'dashboard',
+    path: 'dashboard',
     loadComponent: () =>
-        import('./dashboard/dashboard.component').then((m) => m.DashboardComponent)
+      import('./dashboard/dashboard.component').then((m) => m.DashboardComponent)
   },
   {
-    path:'atualizacao',
-    loadComponent:() =>
-      import('./atualizacao/atualizacao.component').then((m)=>m.AtualizacaoComponent)
+    path: 'atualizacao',
+    loadComponent: () =>
+      import('./atualizacao/atualizacao.component').then((m) => m.AtualizacaoComponent)
   },
   {
-    path:'cadastro',
-    loadComponent:() =>
-      import('./cadastro-plantio/cadastro-plantio.component').then((m)=>m.CadastroPlantioComponent)
+    path: 'cadastro',
+    loadComponent: () =>
+      import('./cadastro-plantio/cadastro-plantio.component').then((m) => m.CadastroPlantioComponent)
   },
   {
-    path:'meu-perfil',
-    loadComponent:() =>
-      import('./meu-perfil/meu-perfil.component').then((m)=>m.MeuPerfilComponent)
+    path: 'meu-perfil',
+    loadComponent: () =>
+      import('./meu-perfil/meu-perfil.component').then((m) => m.MeuPerfilComponent)
   },
   {
-    path:'editar-perfil',
-    loadComponent:() =>
-      import('./editar-perfil/editar-perfil.component').then((m)=>m.EditarPerfilComponent)
+    path: 'editar-perfil',
+    loadComponent: () =>
+      import('./editar-perfil/editar-perfil.component').then((m) => m.EditarPerfilComponent)
   },
   {
-    path:'cadastrousuario',
-    loadComponent:() =>
-      import('./cadastro-usuario/cadastro-usuario.component').then((m)=>m.CadastroUsuarioComponent)
+    path: 'relatorio',
+    loadComponent: () =>
+      import('./relatorio/relatorio.component').then((m) => m.RelatorioComponent)
+  },
+  {
+    path: 'cadastrousuario',
+    loadComponent: () =>
+      import('./cadastro-usuario/cadastro-usuario.component').then((m) => m.CadastroUsuarioComponent)
   }
 ];

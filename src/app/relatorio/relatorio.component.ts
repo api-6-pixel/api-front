@@ -32,6 +32,8 @@ import {
   IonCardContent
 } from '@ionic/angular/standalone';
 import { HttpService } from '../service/http.service';
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-relatorio',
@@ -109,7 +111,7 @@ export class RelatorioComponent implements OnInit {
 
   filtrar() {
     this.http.get("relatorio/" + localStorage.getItem("idUser") + "/plantacao/" + this.loteSelecionado.id, { responseType: 'arraybuffer' })
-      .then(x => this.downloadExcel(x, "lote"))
+      .then(x => this.downloadExcel(x, "dados_atualizacoes"))
   }
 
   downloadExcel(data: ArrayBuffer, name: string): void {
@@ -123,5 +125,42 @@ export class RelatorioComponent implements OnInit {
     a.download = name + '.xlsx';
     a.click();
     window.URL.revokeObjectURL(url);
+  }
+
+  exportarProjecao(type: 'gastos' | 'crescimento') {
+    const body = {
+      meses_projecao: 5,
+      fazenda_nome: this.loteSelecionado?.fazendaNome
+    };
+
+    this.http.postApiIa("projetar_crescimento/v1", body).then(data => {
+      if (type == 'gastos') {
+        const response = data.meses.map((month: string, index: number) => ({
+          Mes: month,
+          Valor: (data.gastos_projetados[index] / 100) * data.teto_gastos
+        }));
+        this.exportAsExcelFile(response, 'projecao_gastos');
+        return;
+      }
+
+      if (type == 'crescimento') {
+        const response = data.meses.map((month: string, index: number) => ({
+          Mes: month,
+          Crescimento: data.crescimento[index]
+        }));
+        this.exportAsExcelFile(response, 'projecao_crecimento');
+      }
+    });
+  }
+
+  exportAsExcelFile(data: any[], fileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { 'data': worksheet },
+      SheetNames: ['data']
+    };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    FileSaver.saveAs(blob, `${fileName}.xlsx`);
   }
 }

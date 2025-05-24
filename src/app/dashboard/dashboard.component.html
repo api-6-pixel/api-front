@@ -9,13 +9,10 @@
       <ion-item>
         <ion-grid>
           <ion-row class="ion-align-items-center">
-            <!-- Campo TETO DE GASTOS -->
-            <ion-col size="4">
               <ion-item lines="none">
                 <ion-grid>
                   <!-- Primeira linha: exibe filtro de usuário SOMENTE para Administrador -->
-                  <ion-row >
-                    <ion-col size="12" size-md="4">
+                    <ion-col size="4" size-md="4">
                       <ion-item>
                         <ion-label position="stacked">SELECIONE UM USUÁRIO *</ion-label>
                         <ion-select (ionChange)="onUsuarioChange($event)" interface="action-sheet" placeholder="Selecione um usuário" required>
@@ -26,7 +23,7 @@
                       </ion-item>
                     </ion-col>
 
-                    <ion-col size="12" size-md="4">
+                    <ion-col size="4" size-md="4">
                       <ion-item>
                         <ion-label position="stacked">SELECIONE UM LOTE *</ion-label>
                         <ion-select (ionChange)="onLoteChange($event)" interface="action-sheet" placeholder="Selecione um Lote" required>
@@ -48,17 +45,15 @@
                         BUSCAR
                       </ion-button>
                     </ion-col>
-                  </ion-row>
                 </ion-grid>
               </ion-item>
-            </ion-col>
           </ion-row>
         </ion-grid>
       </ion-item>
     </ion-list>
 
-    <ion-grid class="plantacao-fundo">
-      <ion-row *ngIf="!exibeFiltroUsuario">
+    <ion-grid class="plantacao-fundo" *ngIf="!exibeFiltroUsuario">
+      <ion-row >
         <ion-col size="12" size-md="6">
           <ion-item>
             <ion-label position="stacked">SELECIONE UM LOTE *</ion-label>

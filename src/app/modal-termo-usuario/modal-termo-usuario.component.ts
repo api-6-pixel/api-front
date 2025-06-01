@@ -25,6 +25,9 @@ export class ModalTermoUsuarioComponent implements OnInit {
   termoId: any[] = [];
   @Input() check: any;
   descricao: string = '';
+  termoTitulo:string = "";
+  termoDescricao:string = "";
+
   itensObrigatorios: any[] = [];
   itensOpcionais: any[] = [];
   aceito: boolean = false;
@@ -39,12 +42,16 @@ export class ModalTermoUsuarioComponent implements OnInit {
 
 
   ngOnInit() {
+    
+   this.carregaTermo()
   this.usuarioCodigo = localStorage.getItem('idUser') || "0";
   const params = new HttpParams().set('usuarioCodigo', this.usuarioCodigo);
 
   this.http.get('historico/aceitos', { params }).then((data: any) => {
     this.respostaVersionada = data.map((item: any) => item.aceito);
   });
+
+  
 
   this.http.get('historico/ativo', { params }).then((data: any) => {
     this.termoId = data.termoId;
@@ -56,19 +63,38 @@ export class ModalTermoUsuarioComponent implements OnInit {
     const todosItens = [...this.itensObrigatorios, ...this.itensOpcionais];
     this.respostas = {};
 
-    todosItens.forEach((item, index) => {
-      this.respostas[item.codigo] = this.check !== false
-        ? this.check
-        : this.respostaVersionada[index]; 
-    });
+
+    if(this.check == true){
+      
+        [...this.itensObrigatorios, ...this.itensOpcionais].forEach((item) => {
+  this.respostas[item.codigo] = true;
+});
+    }else{
+      
+
+        [...this.itensObrigatorios, ...this.itensOpcionais].forEach((item) => {
+  this.respostas[item.codigo] = item.aceito;
+});
+
+    }
 
     this.termoId = todosItens.map(item => item.codigo);
   });
 }
 
 
+async carregaTermo() {
+  try {
+    const response: any = await this.http.get("historico/termo");
+    this.termoTitulo = response.titulo;
+    this.termoDescricao = response.descricao;
+  } catch (error) {
+    console.error("Erro ao carregar termo:", error);
+  }
+}
+
+
   podeConcordar(): boolean {
-    // Verifica se todos os obrigatórios foram aceitos
     return this.itensObrigatorios.every(
       (item) => this.respostas[item.codigo]
     );
@@ -88,16 +114,14 @@ export class ModalTermoUsuarioComponent implements OnInit {
   concordar() {
   const codigoUsuario = localStorage.getItem("idUser");
 
-  // Concatena os itens obrigatórios e opcionais na ordem
   const todosItens = [...(this.itensObrigatorios || []), ...(this.itensOpcionais || [])];
 
-  // Cria o array de respostas em ordem, com true ou false
   const respostasArray = todosItens.map(item => !!this.respostas[item.codigo]);
 
   const termosAceitos = {
     usuarioCodigo: Number(codigoUsuario),
     termoItemCodigo: this.termoId,
-    respostas: respostasArray, // <-- Aqui está o array com true/false
+    respostas: respostasArray, 
   };
 
   localStorage.setItem('termos', JSON.stringify(termosAceitos));

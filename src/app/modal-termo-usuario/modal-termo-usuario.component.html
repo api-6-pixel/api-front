@@ -10,12 +10,11 @@
 <ion-content class="ion-padding" appScrollbar>
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Uso de Dados Pessoais</ion-card-title>
+      <ion-card-title>{{termoTitulo}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <p>
-        De acordo com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018), precisamos do seu consentimento para tratar seus dados pessoais.
-        Leia atentamente os itens abaixo e marque os que concorda.
+        {{ termoDescricao }}
       </p>
     </ion-card-content>
   </ion-card>
@@ -29,7 +28,6 @@
       <ion-checkbox
         slot="start"
         [(ngModel)]="respostas[item.codigo]"
-        [checked]="aceito || respostas[item.codigo]"  
       ></ion-checkbox>
       <ion-label>
         {{ item.descricao }} <strong class="text-danger">*</strong>

@@ -165,6 +165,11 @@ export class AppComponent {
           link: 'cadastro',
           icon: 'document-text-outline'
         },
+         {
+          caption: "CADASTRO USUARIO",
+          link: 'cadastrousuario',
+          icon: 'document-text-outline'
+        },
         {
           caption: "ATUALIZAÇÃO PLANTIO",
           link: 'atualizacao',

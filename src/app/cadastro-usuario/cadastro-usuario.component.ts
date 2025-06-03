@@ -35,8 +35,8 @@ export class CadastroUsuarioComponent implements OnInit {
 
 
   descricao: string = '';
-  termoTitulo:string = "";
-  termoDescricao:string = "";
+  termoTitulo: string = "";
+  termoDescricao: string = "";
 
   itensObrigatorios: any[] = [];
   itensOpcionais: any[] = [];
@@ -98,7 +98,7 @@ export class CadastroUsuarioComponent implements OnInit {
 
 
   async enviarDados(): Promise<void> {
-     console.log("Pasddou if udrrt1")
+    console.log("Pasddou if udrrt1")
     const termo = localStorage.getItem("termo");
 
 
@@ -174,11 +174,106 @@ export class CadastroUsuarioComponent implements OnInit {
 
         return;
       } else {
+
+        if (this.check === false) {
+          this.usuarioCodigo = localStorage.getItem('idUser') || "0";
+          const params = new HttpParams().set('usuarioCodigo', this.usuarioCodigo);
+
+
+
+          this.http.get('historico/ativo', { params }).then((data: any) => {
+            this.itensObrigatorios = data.obrigatorios;
+            this.itensOpcionais = data.opcionais;
+            this.aceito = data.aceito;
+
+            const todosItens = [...this.itensObrigatorios, ...this.itensOpcionais];
+            this.respostas = {};
+
+
+            if (this.check == false) {
+
+              [...this.itensObrigatorios, ...this.itensOpcionais].forEach((item) => {
+
+                const termosObj = {
+                  aceito: false,
+                  termoItemCodigo: item.codigo,
+                  usuarioCodigo: Number(idUsuarioLocal)
+                };
+
+                this.http.post("historico/aceite", termosObj);
+                this.exibirToast("Termos aceitos!", "success");
+              });
+            }
+
+
+
+
+
+
+          });
+        }
+
+
+
+        if (this.check === true) {
+          this.usuarioCodigo = localStorage.getItem('idUser') || "0";
+          const params = new HttpParams().set('usuarioCodigo', this.usuarioCodigo);
+
+
+
+          this.http.get('historico/ativo', { params }).then((data: any) => {
+            this.itensObrigatorios = data.obrigatorios;
+            this.itensOpcionais = data.opcionais;
+            this.aceito = data.aceito;
+
+            const todosItens = [...this.itensObrigatorios, ...this.itensOpcionais];
+            this.respostas = {};
+
+
+            if (this.check == true) {
+
+              [...this.itensObrigatorios, ...this.itensOpcionais].forEach((item) => {
+
+                const termosObj = {
+                  aceito: true,
+                  termoItemCodigo: item.codigo,
+                  usuarioCodigo: Number(idUsuarioLocal)
+                };
+
+                this.http.post("historico/aceite", termosObj);
+                this.exibirToast("Termos aceitos!", "success");
+              });
+            }
+
+
+
+
+
+
+          });
+        }
         console.log("Nenhum termo encontrado no localStorage");
         return;
       }
     }
-    console.log("Pasddou if udrrt")
+
+
+
+    if (this.check === false) {
+
+      [...this.itensObrigatorios, ...this.itensOpcionais].forEach((item) => {
+
+        const termosObj = {
+          aceito: false,
+          termoItemCodigo: item.codigo,
+          usuarioCodigo: Number(idUsuarioLocal)
+        };
+
+        this.http.post("historico/aceite", termosObj);
+        this.exibirToast("Termos aceitos!", "success");
+      });
+    }
+
 
     // Validação dos campos obrigatórios
     if (!this.usuarioNome || !this.email || !this.senha || !this.cpf) {
@@ -264,15 +359,15 @@ export class CadastroUsuarioComponent implements OnInit {
             if (this.check == true) {
 
               [...this.itensObrigatorios, ...this.itensOpcionais].forEach((item) => {
-                
-                 const termosObj = {
-                aceito: true,
-                termoItemCodigo: item.codigo,
-                usuarioCodigo: idUsuario
-              };
 
-             this.http.post("historico/aceite", termosObj);
-            this.exibirToast("Termos aceitos!", "success");
+                const termosObj = {
+                  aceito: true,
+                  termoItemCodigo: item.codigo,
+                  usuarioCodigo: idUsuario
+                };
+
+                this.http.post("historico/aceite", termosObj);
+                this.exibirToast("Termos aceitos!", "success");
               });
             }
           });
